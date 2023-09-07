@@ -111,7 +111,7 @@ public class Piece : MonoBehaviour
         {
             GridManager.SetThisCellAsFull(blocksArray[i].blockPositionOnGrid.x,
                                           blocksArray[i].blockPositionOnGrid.y,
-                                          blocksArray[i].blockPositionOnGrid.z, true);
+                                          blocksArray[i].blockPositionOnGrid.z, true, false);
         }
     }
 

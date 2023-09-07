@@ -60,7 +60,7 @@ public class GridManager : MonoBehaviour
     public void DisplayGridWithOneBlock(GameObject objectToDisplay)
     {
         Vector3 scale = new Vector3(sizeX * scaleOfCells, sizeY * scaleOfCells, sizeZ * scaleOfCells);
-        
+
         Vector3 position = new Vector3(gridOriginPosition.x + scale.x * 0.5f,
                                        gridOriginPosition.y + scale.y * 0.5f,
                                        gridOriginPosition.z + scale.z * 0.5f);
@@ -76,21 +76,22 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public static void SetThisCellAsFull(int posX, int posY, int posZ, bool visuallyMarkAsFull = false)
+    public static void SetThisCellAsFull(int posX, int posY, int posZ, bool destroyVisualEmptyCell = true, bool visuallyMarkAsFull = false)
     {
         tetrisGrid.gridArray[posX, posY, posZ].isFull = true;
 
+        if (destroyVisualEmptyCell && tetrisGrid.gridArray[posX, posY, posZ].visualGameObject != null)
+        {
+            Destroy(tetrisGrid.gridArray[posX, posY, posZ].visualGameObject);
+        }
+
         if (visuallyMarkAsFull)
         {
-            if (tetrisGrid.gridArray[posX, posY, posZ].visualGameObject != null)
-            {
-                Vector3 positionOfCell = tetrisGrid.gridArray[posX, posY, posZ].visualGameObject.transform.position;
-                Destroy(tetrisGrid.gridArray[posX, posY, posZ].visualGameObject);
-                tetrisGrid.gridArray[posX, posY, posZ].visualGameObject = Instantiate(cubePrefabToSeeFullCells_static);
-                float sizeOfVisual = scaleOfCells - scaleOfCells * 0.075f;
-                tetrisGrid.gridArray[posX, posY, posZ].visualGameObject.transform.localScale = new Vector3(sizeOfVisual, sizeOfVisual, sizeOfVisual);
-                tetrisGrid.gridArray[posX, posY, posZ].visualGameObject.transform.position = positionOfCell;
-            }
+            Vector3 positionOfCell = tetrisGrid.gridArray[posX, posY, posZ].worldPosition;
+            tetrisGrid.gridArray[posX, posY, posZ].visualGameObject = Instantiate(cubePrefabToSeeFullCells_static);
+            float sizeOfVisual = scaleOfCells - scaleOfCells * 0.075f;
+            tetrisGrid.gridArray[posX, posY, posZ].visualGameObject.transform.localScale = new Vector3(sizeOfVisual, sizeOfVisual, sizeOfVisual);
+            tetrisGrid.gridArray[posX, posY, posZ].visualGameObject.transform.position = positionOfCell;
         }
     }
 }
