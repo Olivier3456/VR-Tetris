@@ -7,7 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
-    public static float piecesFallSpeed = 0.25f;    
+    public static float piecesFallSpeed = 0.125f;
 
     private void Start()
     {
@@ -32,9 +32,9 @@ public class PiecesManager : MonoBehaviour
         piece.piecesManager = this;
     }
 
-    public void KillPiece(Block[] pieceBlocks, Piece pieceToDestroy)
+    public void KillPiece(List<Block> pieceBlocks, Piece pieceToDestroy)
     {
-        for (int i = 0; i < pieceBlocks.Length; i++)
+        for (int i = 0; i < pieceBlocks.Count; i++)
         {
             pieceBlocks[i].transform.parent = null;
 
@@ -44,6 +44,10 @@ public class PiecesManager : MonoBehaviour
                                                                                  pieceBlocks[i].blockPositionOnGrid.z].worldPosition;
             pieceBlocks[i].piece = null;
             pieceBlocks[i].isDead = true;
+
+            GridManager.deadBlocks[pieceBlocks[i].blockPositionOnGrid.x,
+                                   pieceBlocks[i].blockPositionOnGrid.y,
+                                   pieceBlocks[i].blockPositionOnGrid.z] = pieceBlocks[i];
         }
 
         Destroy(pieceToDestroy.gameObject);

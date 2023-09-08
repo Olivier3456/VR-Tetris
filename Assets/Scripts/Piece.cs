@@ -1,20 +1,21 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [Serializable]
 public class Piece : MonoBehaviour
 {
-    public Block[] blocksArray;
+    [HideInInspector] public List<Block> blocksList = new List<Block>();
+    [HideInInspector] public int numberOfBlocks = 0;
     [HideInInspector] public float scale;
     [HideInInspector] public PiecesManager piecesManager;
     [HideInInspector] public bool isHanded;
-    [HideInInspector] public bool isLerpingToNewWorldPosition;
+    [HideInInspector] public bool isLerpingToNewWorldPosition;  // Dont't this lerp for now.
     //[HideInInspector] public bool isLerpingToGridCellWorldRotation;
     private Vector3 lastValidPosition;
     private Quaternion lastValidRotation;
-    
 
     private void Update()
     {
@@ -22,18 +23,17 @@ public class Piece : MonoBehaviour
         {
             Fall();
 
-            foreach (Block block in blocksArray)
+            foreach (Block block in blocksList)
             {
-                block.FindNearestGridCellPosition_Y_Only_Plus_Offset();
+                block.FindNearestGridCellPosition_Y_Only_With_Offset();
             }
-
 
             if (CheckIfGrounded())
             {
                 MarkGridCellsAsFull();
 
-                //piecesManager.CreateRandomPiece(new Vector3Int(2, 8, 2), GridManager.scaleOfCells);                
-                piecesManager.KillPiece(blocksArray, this);
+                piecesManager.KillPiece(blocksList, this);
+                piecesManager.CreateRandomPiece(new Vector3Int(2, 8, 2), GridManager.scaleOfCells);
             }
         }
     }
@@ -61,15 +61,15 @@ public class Piece : MonoBehaviour
 
         // Determine if each block is on the grid, and in an empty grid cell. If so, each grid block position is updated and the piece can be dropped.     
         bool isNewPosValid = true;
-        for (int i = 0; i < blocksArray.Length; i++)
+        for (int i = 0; i < blocksList.Count; i++)
         {
-            if (!blocksArray[i].TryAndFindGridCellPosition())
+            if (!blocksList[i].TryAndFindGridCellPosition())
             {
                 isNewPosValid = false;
                 break;
             }
 
-            if (blocksArray[i].IsYourCellFull())
+            if (blocksList[i].IsYourCellFull())
             {
                 isNewPosValid = false;
                 break;
@@ -81,38 +81,52 @@ public class Piece : MonoBehaviour
             transform.position = lastValidPosition;
             transform.rotation = lastValidRotation;
 
-            for (int i = 0; i < blocksArray.Length; i++)
+            for (int i = 0; i < blocksList.Count; i++)
             {
-                blocksArray[i].TryAndFindGridCellPosition();
+                blocksList[i].TryAndFindGridCellPosition();
             }
         }
         else
         {
-            //Debug.Log("Piece dropped");
-
-            isHanded = false;
+            //Debug.Log("Piece dropped");            
 
             // Piece can be dropped. It must go to the world position corresponding to its blocks grid positions:
             // we ask to one of them its movement from its actual world position to its new grid cell world position, and we apply it to the entiere piece.
-            Vector3 movementToApply = blocksArray[0].GetMovementFromWorldPositionToNearestGridCellWorldPosition();
+            Vector3 movementToApply = blocksList[0].GetMovementFromWorldPositionToNearestGridCellWorldPosition();
             MoveToWorldPosition(movementToApply, false);
 
             if (CheckIfGrounded())
             {
                 MarkGridCellsAsFull();
-                piecesManager.KillPiece(blocksArray, this);
+                piecesManager.KillPiece(blocksList, this);
+
+                // Just for now, while there is no Game Manager yet.
+                piecesManager.CreateRandomPiece(new Vector3Int(2, 8, 2), GridManager.scaleOfCells);
             }
         }
+
+        isHanded = false;
     }
 
+
+    private List<int> listOfFloors = new List<int>();
     private void MarkGridCellsAsFull()
     {
-        for (int i = 0; i < blocksArray.Length; i++)
+        listOfFloors.Clear();
+
+        for (int i = 0; i < blocksList.Count; i++)
         {
-            GridManager.SetThisCellAsFull(blocksArray[i].blockPositionOnGrid.x,
-                                          blocksArray[i].blockPositionOnGrid.y,
-                                          blocksArray[i].blockPositionOnGrid.z, true, false);
+            GridManager.SetThisCellAsFull(blocksList[i].blockPositionOnGrid.x,
+                                          blocksList[i].blockPositionOnGrid.y,
+                                          blocksList[i].blockPositionOnGrid.z, true, false);
+
+            if (!listOfFloors.Contains(blocksList[i].blockPositionOnGrid.y))
+            {
+                listOfFloors.Add(blocksList[i].blockPositionOnGrid.y);
+            }
         }
+
+        GridManager.CheckIfTheseFloorsAreFull(listOfFloors);
     }
 
     private void MoveToWorldPosition(Vector3 movementToApply, bool lerp = true)
@@ -127,6 +141,8 @@ public class Piece : MonoBehaviour
         }
     }
 
+
+    // DONT USE IT FOR NOW!
     private IEnumerator CoroutineLerpToGridCellWorldPosition(Vector3 movementToApply)
     {
         isLerpingToNewWorldPosition = true;
@@ -159,11 +175,11 @@ public class Piece : MonoBehaviour
 
     public bool CheckIfGrounded()
     {
-        for (int i = 0; i < blocksArray.Length; i++)
+        for (int i = 0; i < blocksList.Count; i++)
         {
-            if (blocksArray[i].IsGrounded)
+            if (blocksList[i].IsGrounded)
             {
-                Debug.Log("Piece grounded.");
+                Debug.Log("Piece grounded.");     // S'affiche trop de fois dans la console. Il faut voir pourquoi.
                 return true;
             }
         }

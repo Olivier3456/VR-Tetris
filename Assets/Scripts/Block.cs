@@ -8,6 +8,7 @@ public class Block : MonoBehaviour
     [HideInInspector] public Vector3Int blockPositionOnGrid;
     [HideInInspector] public Piece piece;
     [HideInInspector] public bool isDead = false;
+        
 
     public bool IsGrounded
     {
@@ -32,6 +33,9 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
+        piece = transform.parent.GetComponent<Piece>();
+        piece.blocksList.Add(this);
+
         TryAndFindGridCellPosition();
     }
 
@@ -74,11 +78,10 @@ public class Block : MonoBehaviour
     /// <summary>
     /// The verification adds an Y offset to prevent the block to be grounded in the middle of the grid cell height: the block is grounded at the bottom of the cell.
     /// </summary>
-    public void FindNearestGridCellPosition_Y_Only_Plus_Offset()
+    public void FindNearestGridCellPosition_Y_Only_With_Offset()
     {
         float blockYPositionFromGridYOriginPlusOffset = transform.position.y - GridManager.tetrisGrid.worldPosition.y + GridManager.scaleOfCells;
         int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
-
         blockPositionOnGrid = new Vector3Int(blockPositionOnGrid.x, blockYGridPosition, blockPositionOnGrid.z);
     }
 

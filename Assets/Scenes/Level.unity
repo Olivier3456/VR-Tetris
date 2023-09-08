@@ -191,6 +191,12 @@ PrefabInstance:
       propertyPath: xrInteractionManager
       value: 
       objectReference: {fileID: 1135882500}
+    - target: {fileID: 5514551794402183500, guid: 63e01ed437b57f747a1711c07fe5e8b5,
+        type: 3}
+      propertyPath: piecesPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4636897369210395641, guid: 59a4e14e6555e6844a5f8ea6525446de,
+        type: 3}
     - target: {fileID: 6672163946831850970, guid: 63e01ed437b57f747a1711c07fe5e8b5,
         type: 3}
       propertyPath: m_Name
@@ -209,6 +215,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
+        type: 3}
+      propertyPath: sizeX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
+        type: 3}
+      propertyPath: sizeZ
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5307973822928053978, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
       propertyPath: m_Name
@@ -1078,7 +1094,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265825138}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35439613, y: 0.1345006, z: -1}
+  m_LocalPosition: {x: 0.35439613, y: 0.1345006, z: 0.026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

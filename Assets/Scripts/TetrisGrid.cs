@@ -22,6 +22,8 @@ public struct TetrisGrid
 
     public Cell[,,] gridArray;
 
+    public int[] floorsFullCellsNumberArray;
+
 
     // constructor
     public TetrisGrid(int xNumberOfCells, int yNumberOfCells, int zNumberOfCells, Vector3 worldPosition, float scaleOfCells)
@@ -30,7 +32,15 @@ public struct TetrisGrid
         this.yNumberOfCells = yNumberOfCells;
         this.zNumberOfCells = zNumberOfCells;
         this.worldPosition = worldPosition;
-        this.sizeOfCells = scaleOfCells;
+        sizeOfCells = scaleOfCells;
+
+
+        floorsFullCellsNumberArray = new int[yNumberOfCells - 1];
+        for (int i = 0; i < floorsFullCellsNumberArray.Length; i++)
+        {
+            floorsFullCellsNumberArray[i] = 0;
+        }
+
 
         gridArray = new Cell[xNumberOfCells, yNumberOfCells, zNumberOfCells];
 
@@ -40,7 +50,7 @@ public struct TetrisGrid
             {
                 for (int k = 0; k < zNumberOfCells; k++)
                 {
-                    gridArray[i, j, k] = new Cell();                    
+                    gridArray[i, j, k] = new Cell();
 
                     Vector3 cellWorldPosition = new Vector3(worldPosition.x + (i * scaleOfCells),
                                                             worldPosition.y + (j * scaleOfCells),
