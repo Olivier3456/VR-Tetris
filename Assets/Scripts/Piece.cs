@@ -9,13 +9,13 @@ public class Piece : MonoBehaviour
 {
     [HideInInspector] public List<Block> blocksList = new List<Block>();
     [HideInInspector] public int numberOfBlocks = 0;
-    [HideInInspector] public float scale;
     [HideInInspector] public PiecesManager piecesManager;
     [HideInInspector] public bool isHanded;
     [HideInInspector] public bool isLerpingToNewWorldPosition;  // Dont't this lerp for now.
     //[HideInInspector] public bool isLerpingToGridCellWorldRotation;
     private Vector3 lastValidPosition;
     private Quaternion lastValidRotation;
+
 
     private void Update()
     {
@@ -32,8 +32,10 @@ public class Piece : MonoBehaviour
             {
                 MarkGridCellsAsFull();
 
-                piecesManager.KillPiece(blocksList, this);
-                piecesManager.CreateRandomPiece(new Vector3Int(2, 8, 2), GridManager.scaleOfCells);
+                PiecesManager.KillPiece(blocksList, this);
+
+                // Just for now, while there is no Game Manager yet.
+                piecesManager.CreateRandomPiece();
             }
         }
     }
@@ -88,20 +90,18 @@ public class Piece : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Piece dropped");            
-
             // Piece can be dropped. It must go to the world position corresponding to its blocks grid positions:
             // we ask to one of them its movement from its actual world position to its new grid cell world position, and we apply it to the entiere piece.
             Vector3 movementToApply = blocksList[0].GetMovementFromWorldPositionToNearestGridCellWorldPosition();
-            MoveToWorldPosition(movementToApply, false);
+            MoveToWorldPosition(movementToApply);
 
             if (CheckIfGrounded())
             {
                 MarkGridCellsAsFull();
-                piecesManager.KillPiece(blocksList, this);
+                PiecesManager.KillPiece(blocksList, this);
 
                 // Just for now, while there is no Game Manager yet.
-                piecesManager.CreateRandomPiece(new Vector3Int(2, 8, 2), GridManager.scaleOfCells);
+                piecesManager.CreateRandomPiece();
             }
         }
 
@@ -118,7 +118,7 @@ public class Piece : MonoBehaviour
         {
             GridManager.SetThisCellAsFull(blocksList[i].blockPositionOnGrid.x,
                                           blocksList[i].blockPositionOnGrid.y,
-                                          blocksList[i].blockPositionOnGrid.z, true, false);
+                                          blocksList[i].blockPositionOnGrid.z, false, false);
 
             if (!listOfFloors.Contains(blocksList[i].blockPositionOnGrid.y))
             {
@@ -129,34 +129,34 @@ public class Piece : MonoBehaviour
         GridManager.CheckIfTheseFloorsAreFull(listOfFloors);
     }
 
-    private void MoveToWorldPosition(Vector3 movementToApply, bool lerp = true)
+    private void MoveToWorldPosition(Vector3 movementToApply) //, bool lerp = true)
     {
-        if (!lerp)
-        {
-            transform.position -= movementToApply;
-        }
-        else
-        {
-            StartCoroutine(CoroutineLerpToGridCellWorldPosition(movementToApply));
-        }
+        //if (!lerp)
+        //{
+        transform.position -= movementToApply;
+        //}
+        //else
+        //{
+        //StartCoroutine(CoroutineLerpToGridCellWorldPosition(movementToApply));
+        //}
     }
 
 
     // DONT USE IT FOR NOW!
-    private IEnumerator CoroutineLerpToGridCellWorldPosition(Vector3 movementToApply)
-    {
-        isLerpingToNewWorldPosition = true;
-        Vector3 newPosition = transform.position - movementToApply;
+    //private IEnumerator CoroutineLerpToGridCellWorldPosition(Vector3 movementToApply)
+    //{
+    //    isLerpingToNewWorldPosition = true;
+    //    Vector3 newPosition = transform.position - movementToApply;
 
-        while (Vector3.Distance(transform.position, newPosition) < scale * 0.01f)
-        {
-            transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime);
-            yield return null;
-        }
+    //    while (Vector3.Distance(transform.position, newPosition) < GridManager.scaleOfCells * 0.01f)
+    //    {
+    //        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime);
+    //        yield return null;
+    //    }
 
-        transform.position = newPosition;
-        isLerpingToNewWorldPosition = false;
-    }
+    //    transform.position = newPosition;
+    //    isLerpingToNewWorldPosition = false;
+    //}
 
 
     private void FindAndRotateToNearestOrthogonalRotation()
@@ -179,7 +179,7 @@ public class Piece : MonoBehaviour
         {
             if (blocksList[i].IsGrounded)
             {
-                Debug.Log("Piece grounded.");     // S'affiche trop de fois dans la console. Il faut voir pourquoi.
+                //Debug.Log("Piece grounded.");
                 return true;
             }
         }

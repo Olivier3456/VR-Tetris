@@ -79,7 +79,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public static void SetThisCellAsFull(int posX, int posY, int posZ, bool destroyVisualEmptyCell = true, bool visuallyMarkAsFull = false)
+    public static void SetThisCellAsFull(int posX, int posY, int posZ, bool destroyVisualEmptyCell = false, bool visuallyMarkAsFull = false)
     {
         tetrisGrid.gridArray[posX, posY, posZ].isFull = true;
         tetrisGrid.floorsFullCellsNumberArray[posY]++;
@@ -101,7 +101,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    
+
     public static void CheckIfTheseFloorsAreFull(List<int> floorsToCheck)
     {
         // Order floors to check from highest to lowest: avoid to miss floors to check that are higher than floors already checked.
@@ -116,7 +116,7 @@ public class GridManager : MonoBehaviour
                 Debug.LogError("This floor is outside of the bounds of the grid!");
             }
             else
-            {                
+            {
                 //Debug.Log("tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[" + i + "] = " + tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[i]]); // Seems OK
 
                 if (tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[i]] == totalNumberOfCellsInEachFloor)
@@ -152,33 +152,31 @@ public class GridManager : MonoBehaviour
             // and inherits its dead block, if there is one.
             for (int x = 0; x < sizeX; x++)
             {
+                // Here, we start at the full floor index, and stop at the second-to-last floor index (the highest floor will be treated separatly).
                 for (int y = floorFull; y < sizeY - 1; y++)
                 {
                     for (int z = 0; z < sizeZ; z++)
                     {
                         tetrisGrid.gridArray[x, y, z].isFull = tetrisGrid.gridArray[x, y + 1, z].isFull;
 
-                        // If their is a dead block directly above this grid cell...
+                        // Destroy the actual dead block Game Object of the cell, if it exists.
+                        if (deadBlocks[x, y, z] != null)
+                        {
+                            Destroy(deadBlocks[x, y, z].gameObject);
+                        }
+
+                        // If there is a dead block directly above this grid cell:
                         if (deadBlocks[x, y + 1, z] != null)
                         {
-                            // move down the block above.
+                            // Move down the block directly above.
                             deadBlocks[x, y + 1, z].transform.position = tetrisGrid.gridArray[x, y, z].worldPosition;
-
-                            // Destroy the dead block gameObject if it exists and replace it in deadBlocks[,,] by the block above.
-                            if (deadBlocks[x, y, z] != null)
-                            {
-                                Destroy(deadBlocks[x, y, z].gameObject);
-                                deadBlocks[x, y, z] = deadBlocks[x, y + 1, z];
-                            }
+                            deadBlocks[x, y + 1, z].blockPositionOnGrid = new Vector3Int(x, y, z);
+                            deadBlocks[x, y, z] = deadBlocks[x, y + 1, z];
                         }
                         else
                         {
-                            // No dead block directly above this grid cell: destroy its dead block if it exists.
-                            if (deadBlocks[x, y, z] != null)
-                            {
-                                Destroy(deadBlocks[x, y, z].gameObject);
-                                deadBlocks[x, y, z] = null;
-                            }
+                            // No dead block directly above this grid cell, which will become or stay empty.
+                            deadBlocks[x, y, z] = null;
                         }
                     }
                 }
@@ -186,12 +184,16 @@ public class GridManager : MonoBehaviour
         }
 
         // The highest floor is always empty: no dead blocks to fall on it.
-        tetrisGrid.floorsFullCellsNumberArray[tetrisGrid.floorsFullCellsNumberArray.Length - 1] = 0;
+        tetrisGrid.floorsFullCellsNumberArray[sizeY - 1] = 0;
         for (int x = 0; x < sizeX; x++)
         {
             for (int z = 0; z < sizeZ; z++)
             {
-                deadBlocks[x, sizeY, z] = null;
+                if (deadBlocks[x, sizeY - 1, z] != null)
+                {
+                    Destroy(deadBlocks[x, sizeY - 1, z].gameObject);
+                    deadBlocks[x, sizeY - 1, z] = null;
+                }
             }
         }
     }

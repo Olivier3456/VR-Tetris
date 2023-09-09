@@ -8,31 +8,32 @@ public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
     public static float piecesFallSpeed = 0.125f;
+    public static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
+    
 
     private void Start()
     {
-        CreateRandomPiece(new Vector3Int(2, 8, 2), GridManager.scaleOfCells);
+        CreateRandomPiece();
     }
 
 
-    public void CreateRandomPiece(Vector3Int positionOnGrid, float size)
+    public void CreateRandomPiece()
     {
         int randomIndex = Random.Range(0, piecesPrefabs.Count);
-        CreatePiece(piecesPrefabs[randomIndex], positionOnGrid, size);
+        CreatePiece(piecesPrefabs[randomIndex]);
     }
 
-    public void CreatePiece(GameObject pieceToCreate, Vector3Int positionOnGrid, float scale)
+    public void CreatePiece(GameObject pieceToCreate)
     {
-        Vector3 pieceWorldPosition = GridManager.gridOriginPosition + positionOnGrid.ConvertTo<Vector3>() * scale;
+        Vector3 pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;
 
         GameObject pieceGameObject = Instantiate(pieceToCreate, pieceWorldPosition, Quaternion.identity);
         Piece piece = pieceGameObject.GetComponent<Piece>();
-        piece.scale = scale;
-        piece.transform.localScale = new Vector3(scale, scale, scale);
+        piece.transform.localScale = new Vector3(GridManager.scaleOfCells, GridManager.scaleOfCells, GridManager.scaleOfCells);
         piece.piecesManager = this;
     }
 
-    public void KillPiece(List<Block> pieceBlocks, Piece pieceToDestroy)
+    public static void KillPiece(List<Block> pieceBlocks, Piece pieceToDestroy)
     {
         for (int i = 0; i < pieceBlocks.Count; i++)
         {
