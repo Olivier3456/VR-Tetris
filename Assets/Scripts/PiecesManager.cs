@@ -6,18 +6,16 @@ using UnityEngine;
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
-    public static float piecesFallSpeed = 0.125f;
+    public static float piecesFallSpeed = 0; //0.125f;
     private static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
 
 
     private void Start()
     {
         Vector3Int gridSize = new Vector3Int(GridManager.tetrisGrid.gridArray.GetLength(0), GridManager.tetrisGrid.gridArray.GetLength(1), GridManager.tetrisGrid.gridArray.GetLength(2));
-        
-        // New pieces will spawn in the middle of the floors, and at second highest floor to avoid large pieces to have blocks above the grid highest floor.
-        piecesStartPosition = new Vector3Int((int)Mathf.Ceil((gridSize.x - 1) * 0.5f), gridSize.y - 2, (int)Mathf.Ceil((gridSize.z - 1) * 0.5f));
 
-        //DebugLogs.ShowMessage("piecesStartPosition = " + piecesStartPosition.ToString());
+        // New pieces will spawn in the middle of the floor, and at second highest floor to avoid large pieces to have blocks above the grid highest floor.
+        piecesStartPosition = new Vector3Int((int)Mathf.Ceil((gridSize.x - 1) * 0.5f), gridSize.y - 2, (int)Mathf.Ceil((gridSize.z - 1) * 0.5f));
 
         CreateRandomPiece();
     }
@@ -39,23 +37,32 @@ public class PiecesManager : MonoBehaviour
         piece.piecesManager = this;
     }
 
-    public static void KillPiece(List<Block> pieceBlocks, Piece pieceToDestroy)
+
+    private static List<int> listOfFloors = new List<int>();
+    public static void KillPiece(Piece pieceToDestroy)
     {
-        for (int i = 0; i < pieceBlocks.Count; i++)
+        listOfFloors.Clear();
+
+        for (int i = 0; i < pieceToDestroy.blocksList.Count; i++)
         {
-            pieceBlocks[i].transform.parent = null;
+            pieceToDestroy.blocksList[i].transform.parent = null;
 
             // To avoid a slight position shift. Maybe not necessary.
-            pieceBlocks[i].transform.position = GridManager.tetrisGrid.gridArray[pieceBlocks[i].blockPositionOnGrid.x,
-                                                                                 pieceBlocks[i].blockPositionOnGrid.y,
-                                                                                 pieceBlocks[i].blockPositionOnGrid.z].worldPosition;
-            pieceBlocks[i].piece = null;
-            pieceBlocks[i].isDead = true;
+            pieceToDestroy.blocksList[i].transform.position = GridManager.tetrisGrid.gridArray[pieceToDestroy.blocksList[i].blockPositionOnGrid.x,
+                                                                                               pieceToDestroy.blocksList[i].blockPositionOnGrid.y,
+                                                                                               pieceToDestroy.blocksList[i].blockPositionOnGrid.z].worldPosition;
+            pieceToDestroy.blocksList[i].piece = null;
+            pieceToDestroy.blocksList[i].isDead = true;
 
-            GridManager.deadBlocks[pieceBlocks[i].blockPositionOnGrid.x,
-                                   pieceBlocks[i].blockPositionOnGrid.y,
-                                   pieceBlocks[i].blockPositionOnGrid.z] = pieceBlocks[i];
+            GridManager.Fill_a_cell_with_a_block(pieceToDestroy.blocksList[i]);
+
+            if (!listOfFloors.Contains(pieceToDestroy.blocksList[i].blockPositionOnGrid.y))
+            {
+                listOfFloors.Add(pieceToDestroy.blocksList[i].blockPositionOnGrid.y);
+            }
         }
+
+        GridManager.CheckIfTheseFloorsAreFull(listOfFloors);
 
         Destroy(pieceToDestroy.gameObject);
     }

@@ -30,9 +30,7 @@ public class Piece : MonoBehaviour
 
             if (CheckIfGrounded())
             {
-                MarkGridCellsAsFull();
-
-                PiecesManager.KillPiece(blocksList, this);
+                PiecesManager.KillPiece(this);
 
                 // Just for now, while there is no Game Manager yet.
                 piecesManager.CreateRandomPiece();
@@ -97,8 +95,7 @@ public class Piece : MonoBehaviour
 
             if (CheckIfGrounded())
             {
-                MarkGridCellsAsFull();
-                PiecesManager.KillPiece(blocksList, this);
+                PiecesManager.KillPiece(this);
 
                 // Just for now, while there is no Game Manager yet.
                 piecesManager.CreateRandomPiece();
@@ -107,27 +104,7 @@ public class Piece : MonoBehaviour
 
         isHanded = false;
     }
-
-
-    private List<int> listOfFloors = new List<int>();
-    private void MarkGridCellsAsFull()
-    {
-        listOfFloors.Clear();
-
-        for (int i = 0; i < blocksList.Count; i++)
-        {
-            GridManager.SetThisCellAsFull(blocksList[i].blockPositionOnGrid.x,
-                                          blocksList[i].blockPositionOnGrid.y,
-                                          blocksList[i].blockPositionOnGrid.z, false, false);
-
-            if (!listOfFloors.Contains(blocksList[i].blockPositionOnGrid.y))
-            {
-                listOfFloors.Add(blocksList[i].blockPositionOnGrid.y);
-            }
-        }
-
-        GridManager.CheckIfTheseFloorsAreFull(listOfFloors);
-    }
+    
 
     private void MoveToWorldPosition(Vector3 movementToApply) //, bool lerp = true)
     {

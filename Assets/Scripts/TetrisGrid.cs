@@ -4,9 +4,10 @@ using UnityEngine;
 
 public struct Cell
 {
-    public bool isFull;
+    //public bool isFull;
     public Vector3 worldPosition;
-    public GameObject visualGameObject;
+    public GameObject visualMarker;
+    public Block blockInThisCell;
 }
 
 
@@ -35,7 +36,7 @@ public struct TetrisGrid
         sizeOfCells = scaleOfCells;
 
 
-        floorsFullCellsNumberArray = new int[yNumberOfCells - 1];
+        floorsFullCellsNumberArray = new int[yNumberOfCells];
         for (int i = 0; i < floorsFullCellsNumberArray.Length; i++)
         {
             floorsFullCellsNumberArray[i] = 0;
