@@ -179,7 +179,7 @@ public class Piece : MonoBehaviour
         {
             if (blocksList[i].IsGrounded)
             {
-                //Debug.Log("Piece grounded.");
+                //DebugLogs.ShowMessage("Piece grounded.");
                 return true;
             }
         }

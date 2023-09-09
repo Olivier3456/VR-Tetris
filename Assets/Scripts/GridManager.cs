@@ -119,7 +119,7 @@ public class GridManager : MonoBehaviour
         {
             if (floorsToCheck[i] >= tetrisGrid.gridArray.GetLength(1) || floorsToCheck[i] < 0)
             {
-                Debug.LogError("This floor is outside of the bounds of the grid!");
+                DebugLogs.ShowMessage("This floor is outside of the bounds of the grid!");
             }
             else
             {
@@ -127,7 +127,7 @@ public class GridManager : MonoBehaviour
 
                 if (tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[i]] == totalNumberOfCellsInEachFloor)
                 {
-                    Debug.Log("The floor " + i + " is full!");
+                    DebugLogs.ShowMessage("The floor " + i + " is full!");
                     numberOfFullFloors++;
                     FloorsFall(i);
                 }

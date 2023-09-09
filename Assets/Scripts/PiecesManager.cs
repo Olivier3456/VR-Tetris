@@ -7,7 +7,7 @@ public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
     public static float piecesFallSpeed = 0.125f;
-    public static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
+    private static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
 
 
     private void Start()
@@ -17,7 +17,8 @@ public class PiecesManager : MonoBehaviour
         // New pieces will spawn in the middle of the floors, and at second highest floor to avoid large pieces to have blocks above the grid highest floor.
         piecesStartPosition = new Vector3Int((int)Mathf.Ceil((gridSize.x - 1) * 0.5f), gridSize.y - 2, (int)Mathf.Ceil((gridSize.z - 1) * 0.5f));
 
-        Debug.Log("piecesStartPosition = " + piecesStartPosition);
+        //DebugLogs.ShowMessage("piecesStartPosition = " + piecesStartPosition.ToString());
+
         CreateRandomPiece();
     }
 
