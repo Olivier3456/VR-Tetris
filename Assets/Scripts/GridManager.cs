@@ -22,9 +22,15 @@ public class GridManager : MonoBehaviour
 
     public static Block[,,] deadBlocks;
 
-    private void Start()
+
+    private void Awake()
     {
         CreateGrid();
+    }
+
+
+    private void Start()
+    {
         DisplayGridWithSeparateBlocks();
         //DisplayGridWithOneBlock(cubePrefabToSeeEmptyCells);
         totalNumberOfCellsInEachFloor = sizeX * sizeZ;

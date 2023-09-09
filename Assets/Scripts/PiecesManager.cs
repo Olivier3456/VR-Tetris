@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
     public static float piecesFallSpeed = 0.125f;
     public static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
-    
+
 
     private void Start()
     {
+        Vector3Int gridSize = new Vector3Int(GridManager.tetrisGrid.gridArray.GetLength(0), GridManager.tetrisGrid.gridArray.GetLength(1), GridManager.tetrisGrid.gridArray.GetLength(2));
+        
+        // New pieces will spawn in the middle of the floors, and at second highest floor to avoid large pieces to have blocks above the grid highest floor.
+        piecesStartPosition = new Vector3Int((int)Mathf.Ceil((gridSize.x - 1) * 0.5f), gridSize.y - 2, (int)Mathf.Ceil((gridSize.z - 1) * 0.5f));
+
+        Debug.Log("piecesStartPosition = " + piecesStartPosition);
         CreateRandomPiece();
     }
 
