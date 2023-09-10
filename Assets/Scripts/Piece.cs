@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [Serializable]
@@ -11,15 +12,15 @@ public class Piece : MonoBehaviour
     [HideInInspector] public int numberOfBlocks = 0;
     [HideInInspector] public PiecesManager piecesManager;
     [HideInInspector] public bool isHanded;
-    [HideInInspector] public bool isLerpingToNewWorldPosition;  // Dont't this lerp for now.
-    //[HideInInspector] public bool isLerpingToGridCellWorldRotation;
     private Vector3 lastValidPosition;
     private Quaternion lastValidRotation;
 
 
+
+
     private void Update()
     {
-        if (!isHanded && !isLerpingToNewWorldPosition) // && !isLerpingToGridCellWorldRotation)
+        if (!isHanded)
         {
             Fall();
 
@@ -85,6 +86,8 @@ public class Piece : MonoBehaviour
             {
                 blocksList[i].TryAndFindGridCellPosition();
             }
+
+            AudioManager.instance.Play_PieceDroppedError();
         }
         else
         {
@@ -100,6 +103,8 @@ public class Piece : MonoBehaviour
                 // Just for now, while there is no Game Manager yet.
                 piecesManager.CreateRandomPiece();
             }
+
+            AudioManager.instance.Play_PieceDroppedGood();
         }
 
         isHanded = false;
@@ -132,7 +137,6 @@ public class Piece : MonoBehaviour
         {
             if (blocksList[i].IsGrounded)
             {
-                //DebugLogs.ShowMessage("Piece grounded.");
                 return true;
             }
         }

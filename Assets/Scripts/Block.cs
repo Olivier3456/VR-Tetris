@@ -8,7 +8,7 @@ public class Block : MonoBehaviour
     [HideInInspector] public Vector3Int blockPositionOnGrid;
     [HideInInspector] public Piece piece;
     [HideInInspector] public bool isDead = false;
-        
+
 
     public bool IsGrounded
     {
@@ -48,7 +48,7 @@ public class Block : MonoBehaviour
         int blockXGridPosition = (int)Math.Floor(blockXPositionFromGridXOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
 
         if (blockXGridPosition > GridManager.tetrisGrid.xNumberOfCells - 1 || blockXGridPosition < 0)
-        {            
+        {
             return false;
         }
 
@@ -57,7 +57,7 @@ public class Block : MonoBehaviour
         int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
 
         if (blockYGridPosition > GridManager.tetrisGrid.yNumberOfCells - 1 || blockYGridPosition < 0)
-        {            
+        {
             return false;
         }
 
@@ -66,7 +66,7 @@ public class Block : MonoBehaviour
         int blockZGridPosition = (int)Math.Floor(blockZPositionFromGridZOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
 
         if (blockZGridPosition > GridManager.tetrisGrid.zNumberOfCells - 1 || blockZGridPosition < 0)
-        {            
+        {
             return false;
         }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class GridManager : MonoBehaviour
 
     private static int totalNumberOfCellsInEachFloor;
 
-    //public static Block[,,] deadBlocks;
-
 
     private void Awake()
     {
@@ -29,8 +28,8 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
-        DisplayGridWithSeparateBlocks();
-        //DisplayGridWithOneBlock(cubePrefabToSeeEmptyCells);
+        //DisplayGridWithSeparateBlocks();
+        DisplayGridWithOneBlock();
         totalNumberOfCellsInEachFloor = sizeX * sizeZ;
     }
 
@@ -63,18 +62,20 @@ public class GridManager : MonoBehaviour
         }
     }
 
-
-    public void DisplayGridWithOneBlock(GameObject objectToDisplay)
+    public void DisplayGridWithOneBlock()
     {
         Vector3 scale = new Vector3(sizeX * scaleOfCells, sizeY * scaleOfCells, sizeZ * scaleOfCells);
 
         Vector3 position = new Vector3(gridOriginPosition.x + scale.x * 0.5f,
                                        gridOriginPosition.y + scale.y * 0.5f,
-                                       gridOriginPosition.z + scale.z * 0.5f);
+                                       gridOriginPosition.z + scale.z * 0.5f)
+        /* offset */        - new Vector3(scaleOfCells * 0.5f, scaleOfCells * 0.5f, scaleOfCells * 0.5f);
 
-        GameObject cube = Instantiate(objectToDisplay, position, Quaternion.identity);
+        GameObject cube = Instantiate(cubePrefabToSeeEmptyCells, position, Quaternion.identity);
         cube.transform.localScale = scale;
     }
+
+
 
 
     public static bool IsThisCellFull(int posX, int posY, int posZ)
@@ -89,11 +90,7 @@ public class GridManager : MonoBehaviour
 
         tetrisGrid.gridArray[pos.x, pos.y, pos.z].blockInThisCell = block;
 
-        // DebugLog.Log("Fill_a_cell_with_a_block() : un bloc dans cette cellule : " + pos.x + ", " + pos.y + ", " + pos.z);    // OK
-
         tetrisGrid.floorsFullCellsNumberArray[pos.y]++;
-
-        //DebugLog.Log("tetrisGrid.floorsFullCellsNumberArray[" + pos.y + "] = " + tetrisGrid.floorsFullCellsNumberArray[pos.y]);   // OK
 
         if (destroyVisualEmptyCell && tetrisGrid.gridArray[pos.x, pos.y, pos.z].visualMarker != null)
         {
@@ -107,8 +104,6 @@ public class GridManager : MonoBehaviour
         // Order floors to check from highest to lowest avoid missing checking floors that are higher than floors already checked.
         floorsToCheck = floorsToCheck.OrderByDescending(x => x).ToList();
 
-        //foreach (int item in floorsToCheck) DebugLog.Log("CheckIfTheseFloorsAreFull : floorsToCheck contient : " + item.ToString());  // OK mais je n'ai pas testé avec plusieurs floors.
-
         for (int i = 0; i < floorsToCheck.Count; i++)
         {
             if (floorsToCheck[i] >= tetrisGrid.gridArray.GetLength(1) || floorsToCheck[i] < 0)
@@ -119,8 +114,9 @@ public class GridManager : MonoBehaviour
             {
                 if (tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[i]] == totalNumberOfCellsInEachFloor)
                 {
-                    DebugLog.Log("The floor " + i + " is full: " + tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[i]] + " cells on this floor.");
                     FloorsFall(floorsToCheck[i]);
+
+                    AudioManager.instance.Play_FullFloor();
                 }
             }
         }
@@ -138,7 +134,7 @@ public class GridManager : MonoBehaviour
         Floors_inherit_the_full_cell_number_of_the_floor_directly_above(fullFloor, sizeY);
 
         Each_grid_cell_inherits_the_block_just_above(fullFloor, sizeX, sizeY, sizeZ);
-        
+
         // lowestEmptyFloor = sizeY means that none of the floors checked by the previous function was empty. The last floor is possibly not empty.
         if (lowestEmptyFloor == sizeY)
         {
@@ -166,7 +162,7 @@ public class GridManager : MonoBehaviour
 
     private static void Floors_inherit_the_full_cell_number_of_the_floor_directly_above(int fullFloor, int sizeY)
     {
-        // We reset the lowest empty floor index to a value higher than the highest floor's index, to be sure y never reaches this value.
+        // We reset the lowest empty floor index to a value y cannot reach.
         lowestEmptyFloor = sizeY;
 
         // We start at the full floor index, and stop at the second-to-last floor index: the highest floor will be treated separatly.
@@ -180,8 +176,6 @@ public class GridManager : MonoBehaviour
             }
 
             tetrisGrid.floorsFullCellsNumberArray[y] = tetrisGrid.floorsFullCellsNumberArray[y + 1];
-
-            //DebugLog.Log("Il y a " + tetrisGrid.floorsFullCellsNumberArray[y] + " block(s) à l'étage " + y);    // OK
         }
     }
 
