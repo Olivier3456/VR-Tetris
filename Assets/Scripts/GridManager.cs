@@ -138,8 +138,8 @@ public class GridManager : MonoBehaviour
         Floors_inherit_the_full_cell_number_of_the_floor_directly_above(fullFloor, sizeY);
 
         Each_grid_cell_inherits_the_block_just_above(fullFloor, sizeX, sizeY, sizeZ);
-
-        // If the lowest empty floor is the floor above the highest floor (sizeY - 1).
+        
+        // lowestEmptyFloor = sizeY means that none of the floors checked by the previous function was empty. The last floor is possibly not empty.
         if (lowestEmptyFloor == sizeY)
         {
             Empty_the_highest_grid_floor(sizeX, sizeY, sizeZ);
@@ -166,10 +166,10 @@ public class GridManager : MonoBehaviour
 
     private static void Floors_inherit_the_full_cell_number_of_the_floor_directly_above(int fullFloor, int sizeY)
     {
-        // Set the lowest empty floor at the floor above the highest floor.
+        // We reset the lowest empty floor index to a value higher than the highest floor's index, to be sure y never reaches this value.
         lowestEmptyFloor = sizeY;
 
-        // (We start at the full floor index, and stop at the second-to-last floor index: the highest floor will be treated separatly.)
+        // We start at the full floor index, and stop at the second-to-last floor index: the highest floor will be treated separatly.
         for (int y = fullFloor; y < sizeY - 1; y++)
         {
             //If a floor is completely empty, no need to continue: all higher floors are empty too.
@@ -189,7 +189,7 @@ public class GridManager : MonoBehaviour
     {
         for (int x = 0; x < sizeX; x++)
         {
-            // (We start at the full floor index, and stop either at the lowest empty floor, or at the second-to-last floor index: the highest floor will be treated separatly if it is not empty.)
+            // We start at the full floor index, and stop either at the lowest empty floor, or at the second-to-last floor index: the highest floor will be treated separatly if it is not empty.
             for (int y = fullFloor; y < lowestEmptyFloor && y < sizeY - 1; y++)
             {
                 for (int z = 0; z < sizeZ; z++)
