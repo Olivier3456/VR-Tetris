@@ -104,36 +104,12 @@ public class Piece : MonoBehaviour
 
         isHanded = false;
     }
-    
 
-    private void MoveToWorldPosition(Vector3 movementToApply) //, bool lerp = true)
+
+    private void MoveToWorldPosition(Vector3 movementToApply)
     {
-        //if (!lerp)
-        //{
         transform.position -= movementToApply;
-        //}
-        //else
-        //{
-        //StartCoroutine(CoroutineLerpToGridCellWorldPosition(movementToApply));
-        //}
     }
-
-
-    // DONT USE IT FOR NOW!
-    //private IEnumerator CoroutineLerpToGridCellWorldPosition(Vector3 movementToApply)
-    //{
-    //    isLerpingToNewWorldPosition = true;
-    //    Vector3 newPosition = transform.position - movementToApply;
-
-    //    while (Vector3.Distance(transform.position, newPosition) < GridManager.scaleOfCells * 0.01f)
-    //    {
-    //        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime);
-    //        yield return null;
-    //    }
-
-    //    transform.position = newPosition;
-    //    isLerpingToNewWorldPosition = false;
-    //}
 
 
     private void FindAndRotateToNearestOrthogonalRotation()

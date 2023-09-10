@@ -6,7 +6,7 @@ using UnityEngine;
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
-    public static float piecesFallSpeed = 0; //0.125f;
+    public static float piecesFallSpeed = 0.5f;
     private static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
 
 
@@ -27,9 +27,44 @@ public class PiecesManager : MonoBehaviour
         CreatePiece(piecesPrefabs[randomIndex]);
     }
 
+
+    // VRAIE FONCTION
+    //public void CreatePiece(GameObject pieceToCreate)
+    //{
+    //    Vector3 pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;
+
+    //    GameObject pieceGameObject = Instantiate(pieceToCreate, pieceWorldPosition, Quaternion.identity);
+    //    Piece piece = pieceGameObject.GetComponent<Piece>();
+    //    piece.transform.localScale = new Vector3(GridManager.scaleOfCells, GridManager.scaleOfCells, GridManager.scaleOfCells);
+    //    piece.piecesManager = this;
+    //}
+
+
+    // VERSION DEBUG    
     public void CreatePiece(GameObject pieceToCreate)
     {
-        Vector3 pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;
+        Vector3 pieceWorldPosition;
+        int index = Random.Range(0, 3);
+        switch (index)
+        {
+            case 0:
+                pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;  // Milieu
+                break;
+            case 1:
+                pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 0) * GridManager.scaleOfCells;     // Droite
+                break;
+            default:
+                pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 2) * GridManager.scaleOfCells;     // Gauche
+                break;
+        }
+
+
+
+        // Pour référence :
+        //pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;  // Milieu
+        //pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 0) * GridManager.scaleOfCells;     // Droite
+        //pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 2) * GridManager.scaleOfCells;     // Gauche
+
 
         GameObject pieceGameObject = Instantiate(pieceToCreate, pieceWorldPosition, Quaternion.identity);
         Piece piece = pieceGameObject.GetComponent<Piece>();
@@ -38,10 +73,16 @@ public class PiecesManager : MonoBehaviour
     }
 
 
+
+
+
     private static List<int> listOfFloors = new List<int>();
     public static void KillPiece(Piece pieceToDestroy)
     {
         listOfFloors.Clear();
+
+        //DebugLog.Log("KillPiece() : listOfFloors a été vidé : Contenu de listOfFloors :");                                // OK
+        //foreach (int index in listOfFloors) DebugLog.Log("listOfFloors contient ce nombre : " + index.ToString());        // OK
 
         for (int i = 0; i < pieceToDestroy.blocksList.Count; i++)
         {
@@ -54,6 +95,8 @@ public class PiecesManager : MonoBehaviour
             pieceToDestroy.blocksList[i].piece = null;
             pieceToDestroy.blocksList[i].isDead = true;
 
+            //DebugLog.Log("KillPiece() : position du block : " + pieceToDestroy.blocksList[i].blockPositionOnGrid.x + ", " + pieceToDestroy.blocksList[i].blockPositionOnGrid.y + ", " + pieceToDestroy.blocksList[i].blockPositionOnGrid.z);  // OK
+
             GridManager.Fill_a_cell_with_a_block(pieceToDestroy.blocksList[i]);
 
             if (!listOfFloors.Contains(pieceToDestroy.blocksList[i].blockPositionOnGrid.y))
@@ -61,6 +104,8 @@ public class PiecesManager : MonoBehaviour
                 listOfFloors.Add(pieceToDestroy.blocksList[i].blockPositionOnGrid.y);
             }
         }
+
+        // foreach (var number in listOfFloors) DebugLog.Log("KillPiece : listOfFloors contient : " + number);  // OK
 
         GridManager.CheckIfTheseFloorsAreFull(listOfFloors);
 
