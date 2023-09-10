@@ -19,7 +19,7 @@ public class Block : MonoBehaviour
                 // Block is at the lowest level of the grid, no need to verify the grid cell at y - 1.
                 return true;
             }
-            else if (GridManager.IsThisCellFull(blockPositionOnGrid.x, blockPositionOnGrid.y - 1, blockPositionOnGrid.z))
+            else if (GridManager.instance.IsThisCellFull(blockPositionOnGrid.x, blockPositionOnGrid.y - 1, blockPositionOnGrid.z))
             {
                 // Block is right above a full grid cell.
                 return true;
@@ -44,28 +44,28 @@ public class Block : MonoBehaviour
     {
         Vector3 blockWorldPosition = transform.position;
 
-        float blockXPositionFromGridXOriginPlusOffset = blockWorldPosition.x - GridManager.tetrisGrid.worldPosition.x + (GridManager.scaleOfCells * 0.5f);
-        int blockXGridPosition = (int)Math.Floor(blockXPositionFromGridXOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
+        float blockXPositionFromGridXOriginPlusOffset = blockWorldPosition.x - GridManager.instance.tetrisGrid.worldPosition.x + (GridManager.instance.scaleOfCells * 0.5f);
+        int blockXGridPosition = (int)Math.Floor(blockXPositionFromGridXOriginPlusOffset / GridManager.instance.tetrisGrid.sizeOfCells);
 
-        if (blockXGridPosition > GridManager.tetrisGrid.xNumberOfCells - 1 || blockXGridPosition < 0)
+        if (blockXGridPosition > GridManager.instance.tetrisGrid.xNumberOfCells - 1 || blockXGridPosition < 0)
         {
             return false;
         }
 
 
-        float blockYPositionFromGridYOriginPlusOffset = blockWorldPosition.y - GridManager.tetrisGrid.worldPosition.y + (GridManager.scaleOfCells * 0.5f);
-        int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
+        float blockYPositionFromGridYOriginPlusOffset = blockWorldPosition.y - GridManager.instance.tetrisGrid.worldPosition.y + (GridManager.instance.scaleOfCells * 0.5f);
+        int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.instance.tetrisGrid.sizeOfCells);
 
-        if (blockYGridPosition > GridManager.tetrisGrid.yNumberOfCells - 1 || blockYGridPosition < 0)
+        if (blockYGridPosition > GridManager.instance.tetrisGrid.yNumberOfCells - 1 || blockYGridPosition < 0)
         {
             return false;
         }
 
 
-        float blockZPositionFromGridZOriginPlusOffset = blockWorldPosition.z - GridManager.tetrisGrid.worldPosition.z + (GridManager.scaleOfCells * 0.5f);
-        int blockZGridPosition = (int)Math.Floor(blockZPositionFromGridZOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
+        float blockZPositionFromGridZOriginPlusOffset = blockWorldPosition.z - GridManager.instance.tetrisGrid.worldPosition.z + (GridManager.instance.scaleOfCells * 0.5f);
+        int blockZGridPosition = (int)Math.Floor(blockZPositionFromGridZOriginPlusOffset / GridManager.instance.tetrisGrid.sizeOfCells);
 
-        if (blockZGridPosition > GridManager.tetrisGrid.zNumberOfCells - 1 || blockZGridPosition < 0)
+        if (blockZGridPosition > GridManager.instance.tetrisGrid.zNumberOfCells - 1 || blockZGridPosition < 0)
         {
             return false;
         }
@@ -80,21 +80,21 @@ public class Block : MonoBehaviour
     /// </summary>
     public void FindNearestGridCellPosition_Y_Only_With_Offset()
     {
-        float blockYPositionFromGridYOriginPlusOffset = transform.position.y - GridManager.tetrisGrid.worldPosition.y + GridManager.scaleOfCells;
-        int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.tetrisGrid.sizeOfCells);
+        float blockYPositionFromGridYOriginPlusOffset = transform.position.y - GridManager.instance.tetrisGrid.worldPosition.y + GridManager.instance.scaleOfCells;
+        int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.instance.tetrisGrid.sizeOfCells);
         blockPositionOnGrid = new Vector3Int(blockPositionOnGrid.x, blockYGridPosition, blockPositionOnGrid.z);
     }
 
 
     public bool IsYourCellFull()
     {
-        return GridManager.IsThisCellFull(blockPositionOnGrid.x, blockPositionOnGrid.y, blockPositionOnGrid.z);
+        return GridManager.instance.IsThisCellFull(blockPositionOnGrid.x, blockPositionOnGrid.y, blockPositionOnGrid.z);
     }
 
 
     public Vector3 GetMovementFromWorldPositionToNearestGridCellWorldPosition()
     {
-        Vector3 res = transform.position - GridManager.tetrisGrid.gridArray[blockPositionOnGrid.x, blockPositionOnGrid.y, blockPositionOnGrid.z].worldPosition;
+        Vector3 res = transform.position - GridManager.instance.tetrisGrid.gridArray[blockPositionOnGrid.x, blockPositionOnGrid.y, blockPositionOnGrid.z].worldPosition;
         return res;
     }
 }

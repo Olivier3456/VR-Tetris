@@ -31,10 +31,7 @@ public class Piece : MonoBehaviour
 
             if (CheckIfGrounded())
             {
-                PiecesManager.KillPiece(this);
-
-                // Just for now, while there is no Game Manager yet.
-                piecesManager.CreateRandomPiece();
+                PiecesManager.instance.KillPiece(this);
             }
         }
     }
@@ -42,7 +39,7 @@ public class Piece : MonoBehaviour
 
     private void Fall()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - Time.deltaTime * PiecesManager.piecesFallSpeed, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - Time.deltaTime * PiecesManager.instance.piecesFallSpeed, transform.position.z);
     }
 
 
@@ -98,10 +95,7 @@ public class Piece : MonoBehaviour
 
             if (CheckIfGrounded())
             {
-                PiecesManager.KillPiece(this);
-
-                // Just for now, while there is no Game Manager yet.
-                piecesManager.CreateRandomPiece();
+                PiecesManager.instance.KillPiece(this);
             }
 
             AudioManager.instance.Play_PieceDroppedGood();

@@ -7,13 +7,28 @@ using UnityEngine;
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
-    public static float piecesFallSpeed = 0.5f;
-    private static Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
+    public float piecesFallSpeed = 0.5f;
+    private Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
 
+    public static PiecesManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.Log("An instance of PiecesManager already exists!");
+        }
+    }
 
     private void Start()
     {
-        Vector3Int gridSize = new Vector3Int(GridManager.tetrisGrid.gridArray.GetLength(0), GridManager.tetrisGrid.gridArray.GetLength(1), GridManager.tetrisGrid.gridArray.GetLength(2));
+        Vector3Int gridSize = new Vector3Int(GridManager.instance.tetrisGrid.gridArray.GetLength(0),
+                                             GridManager.instance.tetrisGrid.gridArray.GetLength(1),
+                                             GridManager.instance.tetrisGrid.gridArray.GetLength(2));
 
         // New pieces will spawn in the middle of the floor, and a little lower than highest floor to avoid large pieces to have blocks above the grid highest floor.
         piecesStartPosition = new Vector3Int((int)Mathf.Ceil((gridSize.x - 1) * 0.5f), gridSize.y - 3, (int)Mathf.Ceil((gridSize.z - 1) * 0.5f));
@@ -32,13 +47,13 @@ public class PiecesManager : MonoBehaviour
     // VRAIE FONCTION
     public void CreatePiece(GameObject pieceToCreate)
     {
-        Vector3 pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;
+        Vector3 pieceWorldPosition = GridManager.instance.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.instance.scaleOfCells;
 
         GameObject pieceGameObject = Instantiate(pieceToCreate, pieceWorldPosition, Quaternion.identity);
 
         Piece piece = pieceGameObject.GetComponent<Piece>();
-        piece.transform.localScale = new Vector3(GridManager.scaleOfCells, GridManager.scaleOfCells, GridManager.scaleOfCells);
-        piece.piecesManager = this;
+        piece.transform.localScale = new Vector3(GridManager.instance.scaleOfCells, GridManager.instance.scaleOfCells, GridManager.instance.scaleOfCells);
+        piece.piecesManager = instance;
     }
 
 
@@ -76,7 +91,7 @@ public class PiecesManager : MonoBehaviour
 
 
     private static List<int> listOfFloors = new List<int>();
-    public static void KillPiece(Piece pieceToDestroy)
+    public void KillPiece(Piece pieceToDestroy)
     {
         listOfFloors.Clear();
 
@@ -85,13 +100,13 @@ public class PiecesManager : MonoBehaviour
             pieceToDestroy.blocksList[i].transform.parent = null;
 
             // To avoid a slight position shift. Maybe not necessary.
-            pieceToDestroy.blocksList[i].transform.position = GridManager.tetrisGrid.gridArray[pieceToDestroy.blocksList[i].blockPositionOnGrid.x,
-                                                                                               pieceToDestroy.blocksList[i].blockPositionOnGrid.y,
-                                                                                               pieceToDestroy.blocksList[i].blockPositionOnGrid.z].worldPosition;
+            pieceToDestroy.blocksList[i].transform.position = GridManager.instance.tetrisGrid.gridArray[pieceToDestroy.blocksList[i].blockPositionOnGrid.x,
+                                                                                                        pieceToDestroy.blocksList[i].blockPositionOnGrid.y,
+                                                                                                        pieceToDestroy.blocksList[i].blockPositionOnGrid.z].worldPosition;
             pieceToDestroy.blocksList[i].piece = null;
             pieceToDestroy.blocksList[i].isDead = true;
 
-            GridManager.Fill_a_cell_with_a_block(pieceToDestroy.blocksList[i]);
+            GridManager.instance.Fill_a_cell_with_a_block(pieceToDestroy.blocksList[i]);
 
             if (!listOfFloors.Contains(pieceToDestroy.blocksList[i].blockPositionOnGrid.y))
             {
@@ -99,9 +114,12 @@ public class PiecesManager : MonoBehaviour
             }
         }
 
-        GridManager.CheckIfTheseFloorsAreFull(listOfFloors);
+        GridManager.instance.CheckIfTheseFloorsAreFull(listOfFloors);
 
         Destroy(pieceToDestroy.gameObject);
+
+        
+        CreateRandomPiece();
 
         AudioManager.instance.Play_PieceGrounded();
     }

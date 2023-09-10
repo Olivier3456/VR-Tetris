@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
-    public static TetrisGrid tetrisGrid;
+    public TetrisGrid tetrisGrid;
 
     public GameObject cubePrefabToSeeEmptyCells;
     [Space(5)]
@@ -13,15 +13,26 @@ public class GridManager : MonoBehaviour
     [Range(8, 20)] public int sizeY = 12;
     [Range(3, 10)] public int sizeZ = 5;
     [Space(5)]
-    public static Vector3 gridOriginPosition = Vector3.zero;
+    public Vector3 gridOriginPosition = Vector3.zero;
     [Space(5)]
-    public static float scaleOfCells = 0.1f;
+    public float scaleOfCells = 0.1f;
 
-    private static int totalNumberOfCellsInEachFloor;
+    private int totalNumberOfCellsInEachFloor;
+
+    public static GridManager instance;
 
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.Log("An instance of GridManager already exists!");
+        }
+
         CreateGrid();
     }
 
@@ -32,7 +43,6 @@ public class GridManager : MonoBehaviour
         DisplayGridWithOneBlock();
         totalNumberOfCellsInEachFloor = sizeX * sizeZ;
     }
-
 
 
     private void CreateGrid()
@@ -78,13 +88,13 @@ public class GridManager : MonoBehaviour
 
 
 
-    public static bool IsThisCellFull(int posX, int posY, int posZ)
+    public bool IsThisCellFull(int posX, int posY, int posZ)
     {
         return tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell != null;
     }
 
 
-    public static void Fill_a_cell_with_a_block(Block block, bool destroyVisualEmptyCell = false)
+    public void Fill_a_cell_with_a_block(Block block, bool destroyVisualEmptyCell = false)
     {
         Vector3Int pos = block.blockPositionOnGrid;
 
@@ -99,7 +109,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public static void CheckIfTheseFloorsAreFull(List<int> floorsToCheck)
+    public void CheckIfTheseFloorsAreFull(List<int> floorsToCheck)
     {
         // Order floors to check from highest to lowest avoid missing checking floors that are higher than floors already checked.
         floorsToCheck = floorsToCheck.OrderByDescending(x => x).ToList();
@@ -122,8 +132,8 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private static int lowestEmptyFloor;
-    private static void FloorsFall(int fullFloor)
+    private int lowestEmptyFloor;
+    private void FloorsFall(int fullFloor)
     {
         int sizeX = tetrisGrid.gridArray.GetLength(0);
         int sizeY = tetrisGrid.gridArray.GetLength(1);
@@ -142,7 +152,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private static void Destroy_all_blocks_of_the_full_floor(int fullFloor, int sizeX, int sizeZ)
+    private void Destroy_all_blocks_of_the_full_floor(int fullFloor, int sizeX, int sizeZ)
     {
         for (int x = 0; x < sizeX; x++)
         {
@@ -160,7 +170,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private static void Floors_inherit_the_full_cell_number_of_the_floor_directly_above(int fullFloor, int sizeY)
+    private void Floors_inherit_the_full_cell_number_of_the_floor_directly_above(int fullFloor, int sizeY)
     {
         // We reset the lowest empty floor index to a value y cannot reach.
         lowestEmptyFloor = sizeY;
@@ -179,7 +189,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private static void Each_grid_cell_inherits_the_block_just_above(int fullFloor, int sizeX, int sizeY, int sizeZ)
+    private void Each_grid_cell_inherits_the_block_just_above(int fullFloor, int sizeX, int sizeY, int sizeZ)
     {
         for (int x = 0; x < sizeX; x++)
         {
@@ -206,7 +216,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private static void Empty_the_highest_grid_floor(int sizeX, int sizeY, int sizeZ)
+    private void Empty_the_highest_grid_floor(int sizeX, int sizeY, int sizeZ)
     {
         // The highest floor is always empty: no blocks to fall on it.
         tetrisGrid.floorsFullCellsNumberArray[sizeY - 1] = 0;

@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            DebugLog.Log("There is already an instance of AudioManager.");
+            Debug.Log("An instance of AudioManager already exists!");
         }
     }
 
