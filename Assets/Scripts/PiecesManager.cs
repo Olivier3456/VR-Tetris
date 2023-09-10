@@ -118,9 +118,11 @@ public class PiecesManager : MonoBehaviour
 
         Destroy(pieceToDestroy.gameObject);
 
-        
-        CreateRandomPiece();
-
         AudioManager.instance.Play_PieceGrounded();
+
+        if (!GameManager.instance.gameOver)
+        {
+            CreateRandomPiece();
+        }
     }
 }

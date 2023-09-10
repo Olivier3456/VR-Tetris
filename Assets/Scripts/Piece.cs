@@ -15,9 +15,9 @@ public class Piece : MonoBehaviour
     private Vector3 lastValidPosition;
     private Quaternion lastValidRotation;
 
+    private bool firstCheck = true;
 
-
-
+    
     private void Update()
     {
         if (!isHanded)
@@ -31,9 +31,17 @@ public class Piece : MonoBehaviour
 
             if (CheckIfGrounded())
             {
+                if (firstCheck)
+                {
+                    DebugLog.Log("GAME OVER!");
+                    GameManager.instance.gameOver = true;
+                }
+
                 PiecesManager.instance.KillPiece(this);
             }
         }
+
+        firstCheck = false;
     }
 
 
