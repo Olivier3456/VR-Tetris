@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -14,13 +15,27 @@ public class Piece : MonoBehaviour
     [HideInInspector] public bool isHanded;
     private Vector3 lastValidPosition;
     private Quaternion lastValidRotation;
-
-    private bool firstCheck = true;
-
     
+
+    private void Start()
+    {
+        blocksList = GetComponentsInChildren<Block>().ToList();
+
+        foreach (Block block in blocksList)
+        {
+            block.TryAndFindGridCellPosition();
+        }
+
+        if (CheckIfGrounded())
+        {
+            DebugLog.Log("GAME OVER!");
+            GameManager.instance.gameOver = true;
+        }
+    }
+
     private void Update()
     {
-        if (!isHanded)
+        if (!isHanded && !GameManager.instance.gameOver)
         {
             Fall();
 
@@ -31,17 +46,9 @@ public class Piece : MonoBehaviour
 
             if (CheckIfGrounded())
             {
-                if (firstCheck)
-                {
-                    DebugLog.Log("GAME OVER!");
-                    GameManager.instance.gameOver = true;
-                }
-
                 PiecesManager.instance.KillPiece(this);
             }
         }
-
-        firstCheck = false;
     }
 
 

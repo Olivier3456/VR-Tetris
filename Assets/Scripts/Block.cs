@@ -6,9 +6,6 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     [HideInInspector] public Vector3Int blockPositionOnGrid;
-    [HideInInspector] public Piece piece;
-    [HideInInspector] public bool isDead = false;
-
 
     public bool IsGrounded
     {
@@ -29,14 +26,6 @@ public class Block : MonoBehaviour
                 return false;
             }
         }
-    }
-
-    private void Start()
-    {
-        piece = transform.parent.GetComponent<Piece>();
-        piece.blocksList.Add(this);
-
-        TryAndFindGridCellPosition();
     }
 
 

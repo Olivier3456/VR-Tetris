@@ -103,8 +103,6 @@ public class PiecesManager : MonoBehaviour
             pieceToDestroy.blocksList[i].transform.position = GridManager.instance.tetrisGrid.gridArray[pieceToDestroy.blocksList[i].blockPositionOnGrid.x,
                                                                                                         pieceToDestroy.blocksList[i].blockPositionOnGrid.y,
                                                                                                         pieceToDestroy.blocksList[i].blockPositionOnGrid.z].worldPosition;
-            pieceToDestroy.blocksList[i].piece = null;
-            pieceToDestroy.blocksList[i].isDead = true;
 
             GridManager.instance.Fill_a_cell_with_a_block(pieceToDestroy.blocksList[i]);
 
