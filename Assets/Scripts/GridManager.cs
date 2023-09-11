@@ -225,7 +225,7 @@ public class GridManager : MonoBehaviour
 
     private void Empty_the_highest_grid_floor(int sizeX, int sizeY, int sizeZ)
     {
-        // The highest floor is always empty: no blocks to fall on it.
+        // The highest floor is always empty after a floor fall: no blocks to fall on it.
         tetrisGrid.floorsFullCellsNumberArray[sizeY - 1] = 0;
         for (int x = 0; x < sizeX; x++)
         {

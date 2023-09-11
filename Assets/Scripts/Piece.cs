@@ -98,7 +98,6 @@ public class Piece : MonoBehaviour
         }
         if (!isNewPosValid)
         {
-            //Debug.Log("The piece is outside the bounds of the grid, or in full cell(s). You can't drop it here.");            
             transform.position = lastValidPosition;
             transform.rotation = lastValidRotation;
 

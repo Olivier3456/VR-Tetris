@@ -1233,6 +1233,7 @@ MonoBehaviour:
   gameOver: 0
   score: 0
   ScoreText: {fileID: 1626046788}
+  groundColorChange: {fileID: 0}
 --- !u!4 &1112821393
 Transform:
   m_ObjectHideFlags: 0
@@ -2795,6 +2796,7 @@ GameObject:
   - component: {fileID: 1899879043}
   - component: {fileID: 1899879042}
   - component: {fileID: 1899879041}
+  - component: {fileID: 1899879045}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -2844,7 +2846,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a0000068e9c5e904a823226a56c60af0, type: 2}
+  - {fileID: 2100000, guid: a9bd203f18ace484d8910460d2a39b63, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2889,6 +2891,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1264219185}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1899879045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899879040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1520619f686271342872573814d2d912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorChangeSpeed: 0.015
 --- !u!1 &2065423468 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4636897369210395641, guid: 1b88f033755bc51439d80a547fbb94d5,

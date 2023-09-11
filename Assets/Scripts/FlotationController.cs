@@ -16,15 +16,12 @@ public class FlotationController : MonoBehaviour
 
     private void Update()
     {
-        
         float yOffset = Mathf.Sin(timeCounter * floatSpeed) * floatIntensity;
         transform.position = startPosition + new Vector3(0, yOffset, 0);
 
-        
         float rotationAngle = Mathf.Sin(timeCounter * rotationSpeed) * floatIntensity * 10.0f;
         transform.Rotate(Vector3.up, rotationAngle);
 
-        
         timeCounter += Time.deltaTime;
     }
 }

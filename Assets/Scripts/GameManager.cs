@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI ScoreText;
 
+    [SerializeField] private ColorChange groundColorChange;
+
 
     private void Awake()
     {
@@ -46,5 +48,15 @@ public class GameManager : MonoBehaviour
         }
 
         ScoreText.text = score.ToString();
+
+        StartCoroutine(ColorChangeAccelerator(numberOfLevels));
+    }
+
+    IEnumerator ColorChangeAccelerator(int numberOfLevels)
+    {
+        float multiplier = 10;
+        groundColorChange.colorChangeSpeed *= multiplier;
+        yield return new WaitForSeconds(numberOfLevels * 0.15f);
+        groundColorChange.colorChangeSpeed /= multiplier;
     }
 }
