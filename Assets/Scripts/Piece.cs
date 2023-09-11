@@ -15,7 +15,7 @@ public class Piece : MonoBehaviour
     [HideInInspector] public bool isHanded;
     private Vector3 lastValidPosition;
     private Quaternion lastValidRotation;
-    
+
 
     private void Start()
     {
@@ -24,12 +24,20 @@ public class Piece : MonoBehaviour
         foreach (Block block in blocksList)
         {
             block.TryAndFindGridCellPosition();
+
+            if (block.IsYourCellFull())
+            {
+                DebugLog.Log("GAME OVER! A piece already exists at a block position of the new piece.");
+                GameManager.instance.gameOver = true;
+                return;
+            }
         }
 
         if (CheckIfGrounded())
         {
-            DebugLog.Log("GAME OVER!");
+            DebugLog.Log("GAME OVER! New piece grounded at start.");
             GameManager.instance.gameOver = true;
+            return;
         }
     }
 
