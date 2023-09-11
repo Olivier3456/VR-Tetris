@@ -9,9 +9,9 @@ public class GridManager : MonoBehaviour
 
     public GameObject cubePrefabToSeeEmptyCells;
     [Space(5)]
-    [Range(3, 10)] public int sizeX = 5;
-    [Range(8, 20)] public int sizeY = 12;
-    [Range(3, 10)] public int sizeZ = 5;
+    [Range(4, 6)] public int sizeX = 5;
+    [Range(14, 20)] public int sizeY = 18;
+    [Range(4, 6)] public int sizeZ = 5;
     [Space(5)]
     public Vector3 gridOriginPosition = Vector3.zero;
     [Space(5)]
@@ -114,6 +114,8 @@ public class GridManager : MonoBehaviour
         // Order floors to check from highest to lowest avoid missing checking floors that are higher than floors already checked.
         floorsToCheck = floorsToCheck.OrderByDescending(x => x).ToList();
 
+        int numberOfLevelsFilledByThisPiece = 0;
+
         for (int i = 0; i < floorsToCheck.Count; i++)
         {
             if (floorsToCheck[i] >= tetrisGrid.gridArray.GetLength(1) || floorsToCheck[i] < 0)
@@ -125,10 +127,15 @@ public class GridManager : MonoBehaviour
                 if (tetrisGrid.floorsFullCellsNumberArray[floorsToCheck[i]] == totalNumberOfCellsInEachFloor)
                 {
                     FloorsFall(floorsToCheck[i]);
-
-                    AudioManager.instance.Play_FullFloor();
+                    numberOfLevelsFilledByThisPiece++;
                 }
             }
+        }
+
+        if (numberOfLevelsFilledByThisPiece > 0)
+        {
+            GameManager.instance.AddScoreForLevelFull(numberOfLevelsFilledByThisPiece);
+            AudioManager.instance.Play_FullFloor();
         }
     }
 

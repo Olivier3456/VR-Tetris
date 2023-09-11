@@ -8,7 +8,7 @@ public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
     public float piecesFallSpeed = 0.5f;
-    private Vector3Int piecesStartPosition = new Vector3Int(1, 10, 1);
+    private Vector3Int piecesStartPosition;
 
     public static PiecesManager instance;
 
@@ -117,6 +117,7 @@ public class PiecesManager : MonoBehaviour
         Destroy(pieceToDestroy.gameObject);
 
         AudioManager.instance.Play_PieceGrounded();
+        GameManager.instance.AddScoreForPieceGrounded();
 
         if (!GameManager.instance.gameOver)
         {
