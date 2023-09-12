@@ -1233,7 +1233,7 @@ MonoBehaviour:
   gameOver: 0
   score: 0
   ScoreText: {fileID: 1626046788}
-  groundColorChange: {fileID: 0}
+  ground: {fileID: 1899879040}
 --- !u!4 &1112821393
 Transform:
   m_ObjectHideFlags: 0
@@ -1549,7 +1549,7 @@ Transform:
   m_GameObject: {fileID: 1264219184}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.060154617, y: 0.34977734, z: 0.41323036}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2798,7 +2798,7 @@ GameObject:
   - component: {fileID: 1899879041}
   - component: {fileID: 1899879045}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2885,7 +2885,7 @@ Transform:
   m_GameObject: {fileID: 1899879040}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.13984539, y: -0.4, z: -0.21323036}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3021,5 +3021,5 @@ SceneRoots:
   - {fileID: 5386444227845762780}
   - {fileID: 1849550614}
   - {fileID: 1112821393}
-  - {fileID: 1264219185}
   - {fileID: 1726369586}
+  - {fileID: 1264219185}

@@ -21,6 +21,8 @@ public class GridManager : MonoBehaviour
 
     public static GridManager instance;
 
+    
+
 
     private void Awake()
     {
@@ -79,7 +81,7 @@ public class GridManager : MonoBehaviour
         Vector3 position = new Vector3(gridOriginPosition.x + scale.x * 0.5f,
                                        gridOriginPosition.y + scale.y * 0.5f,
                                        gridOriginPosition.z + scale.z * 0.5f)
-        /* offset */        - new Vector3(scaleOfCells * 0.5f, scaleOfCells * 0.5f, scaleOfCells * 0.5f);
+        /* offset */     - new Vector3(scaleOfCells * 0.5f, scaleOfCells * 0.5f, scaleOfCells * 0.5f);
 
         GameObject cube = Instantiate(cubePrefabToSeeEmptyCells, position, Quaternion.identity);
         cube.transform.localScale = scale;

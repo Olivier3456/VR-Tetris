@@ -35,13 +35,11 @@ public struct TetrisGrid
         this.worldPosition = worldPosition;
         sizeOfCells = scaleOfCells;
 
-
         floorsFullCellsNumberArray = new int[yNumberOfCells];
         for (int i = 0; i < floorsFullCellsNumberArray.Length; i++)
         {
             floorsFullCellsNumberArray[i] = 0;
         }
-
 
         gridArray = new Cell[xNumberOfCells, yNumberOfCells, zNumberOfCells];
 

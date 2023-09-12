@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI ScoreText;
 
-    [SerializeField] private ColorChange groundColorChange;
+    [SerializeField] private GameObject ground;
+    private ColorChange groundColorChange;
 
 
     private void Awake()
@@ -27,6 +28,20 @@ public class GameManager : MonoBehaviour
             DebugLog.Log("An instance of GameManager already exists!");
         }
     }
+
+
+    private void Start()
+    {
+        TetrisGrid grid = GridManager.instance.tetrisGrid;
+        float groundPosX = grid.worldPosition.x + (grid.sizeOfCells * grid.xNumberOfCells * 0.5f) + (grid.sizeOfCells * -0.5f);
+        float groundPosY = grid.worldPosition.y + (grid.sizeOfCells * -0.5f);
+        float groundPosZ = grid.worldPosition.z + (grid.sizeOfCells * grid.zNumberOfCells * 0.5f) + (grid.sizeOfCells * -0.5f);
+        ground.transform.position = new Vector3(groundPosX, groundPosY, groundPosZ);
+
+        groundColorChange = ground.GetComponent<ColorChange>();
+    }
+
+
 
 
     public void AddScoreForPieceGrounded()
