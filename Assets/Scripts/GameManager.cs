@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ColorChangeAccelerator(numberOfLevels));
     }
 
-    IEnumerator ColorChangeAccelerator(int numberOfLevels)
+    private IEnumerator ColorChangeAccelerator(int numberOfLevels)
     {
         float multiplier = 10;
         groundColorChange.colorChangeSpeed *= multiplier;

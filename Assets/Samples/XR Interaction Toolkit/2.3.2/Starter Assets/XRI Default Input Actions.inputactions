@@ -2104,6 +2104,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Tetris Teleport",
+            "id": "0e29a71c-5300-4aa6-a85c-4c8e7a751250",
+            "actions": [
+                {
+                    "name": "Teleport",
+                    "type": "Value",
+                    "id": "ce3633df-4e7d-4bda-a0ba-600b36b30acb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5819f692-f9c1-4a60-93b1-bc8511fb9c04",
+                    "path": "<XRController>{LeftHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=12,sweepBehavior=1),Sector(directions=2,sweepBehavior=2)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e449c802-0a64-4eaa-a7b9-9636f72a974f",
+                    "path": "<XRController>{RightHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=12,sweepBehavior=1),Sector(directions=2,sweepBehavior=2)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

@@ -204,6 +204,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 15468817}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &39903999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 39904001}
+  - component: {fileID: 39904000}
+  m_Layer: 0
+  m_Name: Teleport Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &39904000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39903999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29a8aae19d6a444899f86ed1c057463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleport: {fileID: 8565399021335654089, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  player: {fileID: 1265825138}
+--- !u!4 &39904001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39903999}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.37425625, y: -1.1327668, z: 2.200833}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &41588245
 GameObject:
   m_ObjectHideFlags: 0
@@ -3018,8 +3065,9 @@ SceneRoots:
   - {fileID: 1135882501}
   - {fileID: 1265825141}
   - {fileID: 1379468208}
-  - {fileID: 5386444227845762780}
   - {fileID: 1849550614}
   - {fileID: 1112821393}
   - {fileID: 1726369586}
   - {fileID: 1264219185}
+  - {fileID: 5386444227845762780}
+  - {fileID: 39904001}
