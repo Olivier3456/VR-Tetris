@@ -5,18 +5,22 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [HideInInspector] public Vector3Int blockPositionOnGrid;
+    [HideInInspector] public Vector3Int positionOnGrid;
+    [HideInInspector] public Vector3Int lastPositionOnGrid;
+    [HideInInspector] public Piece piece;
+
+
 
     public bool IsGrounded
     {
         get
         {
-            if (blockPositionOnGrid.y == 0)
+            if (positionOnGrid.y == 0)
             {
                 // Block is at the lowest level of the grid, no need to verify the grid cell at y - 1.
                 return true;
             }
-            else if (GridManager.instance.IsThisCellFull(blockPositionOnGrid.x, blockPositionOnGrid.y - 1, blockPositionOnGrid.z))
+            else if (GridManager.instance.IsThisCellFull(positionOnGrid.x, positionOnGrid.y - 1, positionOnGrid.z, piece, true))
             {
                 // Block is right above a full grid cell.
                 return true;
@@ -60,7 +64,7 @@ public class Block : MonoBehaviour
         }
 
 
-        blockPositionOnGrid = new Vector3Int(blockXGridPosition, blockYGridPosition, blockZGridPosition);
+        positionOnGrid = new Vector3Int(blockXGridPosition, blockYGridPosition, blockZGridPosition);
         return true;
     }
 
@@ -71,19 +75,19 @@ public class Block : MonoBehaviour
     {
         float blockYPositionFromGridYOriginPlusOffset = transform.position.y - GridManager.instance.tetrisGrid.worldPosition.y + GridManager.instance.scaleOfCells;
         int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.instance.tetrisGrid.sizeOfCells);
-        blockPositionOnGrid = new Vector3Int(blockPositionOnGrid.x, blockYGridPosition, blockPositionOnGrid.z);
+        positionOnGrid = new Vector3Int(positionOnGrid.x, blockYGridPosition, positionOnGrid.z);
     }
 
 
-    public bool IsYourCellFull()
-    {
-        return GridManager.instance.IsThisCellFull(blockPositionOnGrid.x, blockPositionOnGrid.y, blockPositionOnGrid.z);
+    public bool IsYourCellFull(bool ignoreAllPiecesAlive)
+    {        
+        return GridManager.instance.IsThisCellFull(positionOnGrid.x, positionOnGrid.y, positionOnGrid.z, piece, ignoreAllPiecesAlive);
     }
 
 
     public Vector3 GetMovementFromWorldPositionToNearestGridCellWorldPosition()
     {
-        Vector3 res = transform.position - GridManager.instance.tetrisGrid.gridArray[blockPositionOnGrid.x, blockPositionOnGrid.y, blockPositionOnGrid.z].worldPosition;
+        Vector3 res = transform.position - GridManager.instance.tetrisGrid.gridArray[positionOnGrid.x, positionOnGrid.y, positionOnGrid.z].worldPosition;
         return res;
     }
 }

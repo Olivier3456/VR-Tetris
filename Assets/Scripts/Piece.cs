@@ -13,8 +13,10 @@ public class Piece : MonoBehaviour
     [HideInInspector] public int numberOfBlocks = 0;
     [HideInInspector] public PiecesManager piecesManager;
     [HideInInspector] public bool isHanded;
-    private Vector3 lastValidPosition;
-    private Quaternion lastValidRotation;
+    private Vector3 handedPosition;
+    private Quaternion handedRotation;
+
+    public PiecesGrabber grabber = null;
 
 
     private void Start()
@@ -25,7 +27,10 @@ public class Piece : MonoBehaviour
         {
             block.TryAndFindGridCellPosition();
 
-            if (block.IsYourCellFull())
+            block.lastPositionOnGrid = block.positionOnGrid;
+            block.piece = this;
+
+            if (block.IsYourCellFull(true))
             {
                 DebugLog.Log("GAME OVER! A piece already exists at a block position of the new piece.");
                 GameManager.instance.gameOver = true;
@@ -50,6 +55,13 @@ public class Piece : MonoBehaviour
             foreach (Block block in blocksList)
             {
                 block.FindNearestGridCellPosition_Y_Only_With_Offset();
+
+                if (block.lastPositionOnGrid != block.positionOnGrid)
+                {
+                    GridManager.instance.Empty_a_Cell(block.lastPositionOnGrid.x, block.lastPositionOnGrid.y, block.lastPositionOnGrid.z);
+                    GridManager.instance.Fill_a_cell_with_a_block(block, false);
+                    block.lastPositionOnGrid = block.positionOnGrid;
+                }
             }
 
             if (CheckIfGrounded())
@@ -65,22 +77,33 @@ public class Piece : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y - Time.deltaTime * PiecesManager.instance.piecesFallSpeed, transform.position.z);
     }
 
-
-    // Must be called when the player grabs the piece.
+    /// <summary>
+    /// Must be called when the player grabs the piece.
+    /// </summary>    
     public void PieceGrabbed()
     {
-        isHanded = true;
-        lastValidPosition = transform.position;
-        lastValidRotation = transform.rotation;
+        isHanded = true;        
+
+        foreach (Block block in blocksList)
+        {
+            GridManager.instance.Empty_a_Cell(block.positionOnGrid.x, block.positionOnGrid.y, block.positionOnGrid.z);
+            block.lastPositionOnGrid = block.positionOnGrid;
+        }
+
+        GameManager.instance.OnPieceGrabbed();
     }
 
-
-    // Must be called when the player drops the piece.
-    public void PieceDropped()
+    /// <summary>
+    /// Must be called when the player drops the piece.
+    /// </summary>
+    public void TryAndDropThePiece()
     {
+        handedPosition = transform.position;
+        handedRotation = transform.rotation;
+
         FindAndRotateToNearestOrthogonalRotation();
 
-        // Determine if each block is on the grid, and in an empty grid cell. If so, each grid block position is updated and the piece can be dropped.     
+        // Determine if each block is on the grid, and in an empty grid cell.     
         bool isNewPosValid = true;
         for (int i = 0; i < blocksList.Count; i++)
         {
@@ -90,40 +113,47 @@ public class Piece : MonoBehaviour
                 break;
             }
 
-            if (blocksList[i].IsYourCellFull())
+            if (blocksList[i].IsYourCellFull(false))
             {
                 isNewPosValid = false;
                 break;
             }
         }
+
         if (!isNewPosValid)
         {
-            transform.position = lastValidPosition;
-            transform.rotation = lastValidRotation;
-
-            for (int i = 0; i < blocksList.Count; i++)
-            {
-                blocksList[i].TryAndFindGridCellPosition();
-            }
+            // The piece stays in the hand of the player.            
+            transform.position = handedPosition;
+            transform.rotation = handedRotation;
 
             AudioManager.instance.Play_PieceDroppedError();
         }
+
+        // The piece can be released. It must go to the world position corresponding to its blocks grid positions:
+        // we ask to one of them its movement from its actual world position to its new grid cell world position, and we apply it to the entiere piece.
         else
         {
-            // Piece can be dropped. It must go to the world position corresponding to its blocks grid positions:
-            // we ask to one of them its movement from its actual world position to its new grid cell world position, and we apply it to the entiere piece.
             Vector3 movementToApply = blocksList[0].GetMovementFromWorldPositionToNearestGridCellWorldPosition();
             MoveToWorldPosition(movementToApply);
+
+            for (int i = 0; i < blocksList.Count; i++)
+            {
+                GridManager.instance.Fill_a_cell_with_a_block(blocksList[i], false);
+            }
+
+            // The piece is effectively released from the hand which grabbed it.
+            grabber.pieceGrabbed = null;
+            grabber = null;
+            transform.parent = null;
+            isHanded = false;
+
+            AudioManager.instance.Play_PieceDroppedGood();
 
             if (CheckIfGrounded())
             {
                 PiecesManager.instance.KillPiece(this);
             }
-
-            AudioManager.instance.Play_PieceDroppedGood();
         }
-
-        isHanded = false;
     }
 
 

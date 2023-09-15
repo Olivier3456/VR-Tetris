@@ -85,7 +85,7 @@ public class TeleportManager : MonoBehaviour
         {
             if (value.x > 0)
             {
-                DebugLog.Log("Teleport Right");
+                //DebugLog.Log("Teleport Right");
 
                 if (actualAnchorIndex < teleportAnchors.Length - 1)
                 {
@@ -98,7 +98,7 @@ public class TeleportManager : MonoBehaviour
             }
             else
             {
-                DebugLog.Log("Teleport Left");
+                //DebugLog.Log("Teleport Left");
 
                 if (actualAnchorIndex > 0)
                 {

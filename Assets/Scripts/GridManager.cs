@@ -21,7 +21,7 @@ public class GridManager : MonoBehaviour
 
     public static GridManager instance;
 
-    
+
 
 
     private void Awake()
@@ -90,24 +90,42 @@ public class GridManager : MonoBehaviour
 
 
 
-    public bool IsThisCellFull(int posX, int posY, int posZ)
+    public bool IsThisCellFull(int posX, int posY, int posZ, Piece pieceToIgnore, bool ignoreAllPiecesAlive)
     {
-        return tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell != null;
+        // (The piece to ignore is the piece which want to know if the grid cells of its blocks are full.)
+
+
+        DebugLog.Log("Is this cell full() - ignoreAllPiecesAlive = " + ignoreAllPiecesAlive);
+
+        if (ignoreAllPiecesAlive)
+        {
+            return tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell != null && tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell.piece != null;
+        }
+        else
+        {
+            return tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell != null && tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell.piece != pieceToIgnore;
+        }
     }
 
 
-    public void Fill_a_cell_with_a_block(Block block, bool destroyVisualEmptyCell = false)
+    public void Fill_a_cell_with_a_block(Block block, bool isADeadPiece)
     {
-        Vector3Int pos = block.blockPositionOnGrid;
+        Vector3Int pos = block.positionOnGrid;
 
         tetrisGrid.gridArray[pos.x, pos.y, pos.z].blockInThisCell = block;
 
-        tetrisGrid.floorsFullCellsNumberArray[pos.y]++;
-
-        if (destroyVisualEmptyCell && tetrisGrid.gridArray[pos.x, pos.y, pos.z].visualMarker != null)
+        if (isADeadPiece)
         {
-            Destroy(tetrisGrid.gridArray[pos.x, pos.y, pos.z].visualMarker);
+            tetrisGrid.floorsFullCellsNumberArray[pos.y]++;
         }
+    }
+
+    /// <summary>
+    /// This method is only called when a piece alive is falling, and its blocks were filling temporarily the cells.
+    /// </summary>
+    public void Empty_a_Cell(int x, int y, int z)
+    {
+        tetrisGrid.gridArray[x, y, z].blockInThisCell = null;
     }
 
 
@@ -136,7 +154,7 @@ public class GridManager : MonoBehaviour
 
         if (numberOfLevelsFilledByThisPiece > 0)
         {
-            GameManager.instance.AddScoreForLevelFull(numberOfLevelsFilledByThisPiece);
+            GameManager.instance.AddScoreWhenLevelFull(numberOfLevelsFilledByThisPiece);
             AudioManager.instance.Play_FullFloor();
         }
     }
@@ -212,7 +230,7 @@ public class GridManager : MonoBehaviour
                     {
                         // ...the block is falling.
                         tetrisGrid.gridArray[x, y + 1, z].blockInThisCell.transform.position = tetrisGrid.gridArray[x, y, z].worldPosition;
-                        tetrisGrid.gridArray[x, y + 1, z].blockInThisCell.blockPositionOnGrid = new Vector3Int(x, y, z);
+                        tetrisGrid.gridArray[x, y + 1, z].blockInThisCell.positionOnGrid = new Vector3Int(x, y, z);
                         tetrisGrid.gridArray[x, y, z].blockInThisCell = tetrisGrid.gridArray[x, y + 1, z].blockInThisCell;
                     }
                     else
