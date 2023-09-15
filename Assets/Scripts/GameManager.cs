@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private float lastTimeDisplayed = 0;
 
-    private float piecesSpeedFallIncreaseStep = 0.05f;
+    private float piecesSpeedFallIncreaseStep = 0.035f;
 
     public int maxNumberOfActivePieces = 3;
     public int actualNumnberOfActivePieces = 0;
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         {
             time += Time.deltaTime;
             IncreaseLevelIfTimeIsOver();
-            DisplayTimeEverySeconds();
+            DisplayTimeOncePerSecond();
         }
     }
 
@@ -73,9 +73,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DisplayTimeEverySeconds()
+    private void DisplayTimeOncePerSecond()
     {
-        if (lastTimeDisplayed + 1 < time)
+        if (lastTimeDisplayed > time + 1)
         {
             int minutes = (int)Mathf.Floor(time / 60);
             int seconds = (int)(time - (minutes / 60));
@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     public void OnPieceGrounded()
     {
+        score++;
         ScoreText.text = score.ToString();
 
         actualNumnberOfActivePieces--;
@@ -117,7 +118,11 @@ public class GameManager : MonoBehaviour
     private IEnumerator WaitBeforeSpawnNextPiece()
     {
         yield return waitTwoSeconds;
-        PiecesManager.instance.CreateRandomPiece();
+
+        if (actualNumnberOfActivePieces < maxNumberOfActivePieces)      // We check again.
+        {
+            PiecesManager.instance.CreateRandomPiece();
+        }
     }
 
 

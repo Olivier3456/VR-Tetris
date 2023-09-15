@@ -654,6 +654,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5514551794402183500, guid: 63e01ed437b57f747a1711c07fe5e8b5,
         type: 3}
+      propertyPath: piecesFallSpeed
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5514551794402183500, guid: 63e01ed437b57f747a1711c07fe5e8b5,
+        type: 3}
       propertyPath: xrInteractionManager
       value: 
       objectReference: {fileID: 1135882500}
@@ -1335,6 +1340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabInputActionReference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
+  pieceGrabbed: {fileID: 0}
 --- !u!135 &724674649
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1644,6 +1650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabInputActionReference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
+  pieceGrabbed: {fileID: 0}
 --- !u!135 &732042178
 SphereCollider:
   m_ObjectHideFlags: 0

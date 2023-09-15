@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
-    public float piecesFallSpeed = 0.05f;
+    public float piecesFallSpeed = 0.15f;
     private Vector3Int piecesStartPosition;
 
     public static PiecesManager instance;
@@ -45,8 +45,7 @@ public class PiecesManager : MonoBehaviour
         CreatePiece(piecesPrefabs[randomIndex]);
     }
 
-
-    // VRAIE FONCTION
+    
     public void CreatePiece(GameObject pieceToCreate)
     {
         Vector3 pieceWorldPosition = GridManager.instance.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.instance.scaleOfCells;
@@ -58,39 +57,6 @@ public class PiecesManager : MonoBehaviour
         piece.piecesManager = instance;
         GameManager.instance.actualNumnberOfActivePieces++;
     }
-
-
-    // VERSION DEBUG : endroit d'apparition des pièces aléatoire.
-    //public void CreatePiece(GameObject pieceToCreate)
-    //{
-    //    Vector3 pieceWorldPosition;
-    //    int index = UnityEngine.Random.Range(0, 3);
-    //    switch (index)
-    //    {
-    //        case 0:
-    //            pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 1) * GridManager.scaleOfCells;     // Milieu
-    //            break;
-    //        case 1:
-    //            pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 0) * GridManager.scaleOfCells;     // Droite
-    //            break;
-    //        default:
-    //            pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 2) * GridManager.scaleOfCells;     // Gauche
-    //            break;
-    //    }
-
-    //    // Pour référence :
-    //    //pieceWorldPosition = GridManager.gridOriginPosition + piecesStartPosition.ConvertTo<Vector3>() * GridManager.scaleOfCells;  // Milieu
-    //    //pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 0) * GridManager.scaleOfCells;     // Droite
-    //    //pieceWorldPosition = GridManager.gridOriginPosition + new Vector3(1, 12, 2) * GridManager.scaleOfCells;     // Gauche
-
-    //    GameObject pieceGameObject = Instantiate(pieceToCreate, pieceWorldPosition, Quaternion.identity);
-    //    Piece piece = pieceGameObject.GetComponent<Piece>();
-    //    piece.transform.localScale = new Vector3(GridManager.scaleOfCells, GridManager.scaleOfCells, GridManager.scaleOfCells);
-    //    piece.piecesManager = this;
-    //}
-
-
-
 
 
     private static List<int> listOfFloors = new List<int>();
