@@ -776,7 +776,7 @@ PrefabInstance:
     - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
       propertyPath: sizeY
-      value: 18
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
@@ -2108,11 +2108,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOver: 0
   score: 0
-  ScoreText: {fileID: 1626046788}
-  LevelText: {fileID: 136526686}
-  TimeText: {fileID: 1218553542}
+  ScoreText: {fileID: 1772338713}
+  LevelText: {fileID: 1341578409}
+  TimeText: {fileID: 1983811608}
   ground: {fileID: 1899879040}
-  timeBetweenLevels: 30
+  timeBetweenLevels: 60
   maxNumberOfActivePieces: 3
   actualNumnberOfActivePieces: 0
 --- !u!4 &1112821393

@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 
     private void DisplayTimeOncePerSecond()
     {
-        if (lastTimeDisplayed > time + 1)
+        if (time > lastTimeDisplayed + 1)
         {
             int minutes = (int)Mathf.Floor(time / 60);
             int seconds = (int)(time - (minutes / 60));
