@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private float lastTimeDisplayed = 0;
 
-    private float piecesSpeedFallIncreaseStep = 0.1f;
+    private float piecesSpeedFallIncreaseStep = 0.05f;
 
     public int maxNumberOfActivePieces = 3;
     public int actualNumnberOfActivePieces = 0;

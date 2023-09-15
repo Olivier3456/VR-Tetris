@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class PiecesManager : MonoBehaviour
 {
     public List<GameObject> piecesPrefabs = new List<GameObject>();
-    public float piecesFallSpeed = 0.5f;
+    public float piecesFallSpeed = 0.05f;
     private Vector3Int piecesStartPosition;
 
     public static PiecesManager instance;

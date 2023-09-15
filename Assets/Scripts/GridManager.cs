@@ -22,8 +22,6 @@ public class GridManager : MonoBehaviour
     public static GridManager instance;
 
 
-
-
     private void Awake()
     {
         if (instance == null)
@@ -87,19 +85,13 @@ public class GridManager : MonoBehaviour
         cube.transform.localScale = scale;
     }
 
-
-
-
     public bool IsThisCellFull(int posX, int posY, int posZ, Piece pieceToIgnore, bool ignoreAllPiecesAlive)
     {
         // (The piece to ignore is the piece which want to know if the grid cells of its blocks are full.)
 
-
-        DebugLog.Log("Is this cell full() - ignoreAllPiecesAlive = " + ignoreAllPiecesAlive);
-
         if (ignoreAllPiecesAlive)
         {
-            return tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell != null && tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell.piece != null;
+            return tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell != null && tetrisGrid.gridArray[posX, posY, posZ].blockInThisCell.piece == null;
         }
         else
         {

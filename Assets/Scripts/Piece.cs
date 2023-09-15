@@ -96,7 +96,7 @@ public class Piece : MonoBehaviour
     /// <summary>
     /// Must be called when the player drops the piece.
     /// </summary>
-    public void TryAndDropThePiece()
+    public void TryAndReleaseThePiece()
     {
         handedPosition = transform.position;
         handedRotation = transform.rotation;

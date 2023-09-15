@@ -74,11 +74,10 @@ public class PiecesGrabber : MonoBehaviour
 
                 pieceGrabbed.transform.parent = transform;
             }
-        }
-        // Ask the piece if it can be released. 
+        }        
         else
         {
-            pieceGrabbed.TryAndDropThePiece();
+            pieceGrabbed.TryAndReleaseThePiece();
         }
     }    
 }
