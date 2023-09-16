@@ -4,9 +4,7 @@ using UnityEngine;
 
 public struct Cell
 {
-    //public bool isFull;
     public Vector3 worldPosition;
-    public GameObject visualMarker;
     public Block blockInThisCell;
 }
 

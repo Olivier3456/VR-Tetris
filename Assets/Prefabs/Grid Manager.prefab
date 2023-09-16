@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6021240599449891517}
   - component: {fileID: 4153461357779568720}
+  - component: {fileID: 5970033233136625920}
   m_Layer: 0
   m_Name: Grid Manager
   m_TagString: Untagged
@@ -24,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5307973822928053978}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4153461357779568720
 MonoBehaviour:
@@ -44,10 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af21f4157185b4c885cbb0b38bd63b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridDisplayer: {fileID: 5970033233136625920}
+  sizeX: 5
+  sizeY: 20
+  sizeZ: 5
+  gridOriginPosition: {x: 0, y: 0, z: 0}
+  scaleOfCells: 0.1
+--- !u!114 &5970033233136625920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5307973822928053978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c9da2210fe3bb40b5fd38dbfc72cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   cubePrefabToSeeEmptyCells: {fileID: 4118998253367068254, guid: 9b9d8e65886dc694c8912b050547258f,
     type: 3}
-  cubePrefabToSeeFullCells: {fileID: 4118998253367068254, guid: 05d140e419d85d448a142056f545a837,
-    type: 3}
-  sizeX: 5
-  sizeY: 12
-  sizeZ: 5

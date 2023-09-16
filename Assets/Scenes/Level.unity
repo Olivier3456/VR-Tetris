@@ -633,48 +633,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
-        type: 3}
-      propertyPath: sizeX
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
-        type: 3}
-      propertyPath: sizeY
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
-        type: 3}
-      propertyPath: sizeZ
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
-        type: 3}
-      propertyPath: gridCanvas
-      value: 
-      objectReference: {fileID: 8109452104851536477, guid: 872accd681dedb743a78e1effceaad69,
-        type: 3}
-    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
-        type: 3}
-      propertyPath: squareImage
-      value: 
-      objectReference: {fileID: 8364147732713161592, guid: b90dc07b28470134b90eb598baa521e9,
-        type: 3}
-    - target: {fileID: 4153461357779568720, guid: d0ea4137d03239643b23e406abcbf04f,
-        type: 3}
-      propertyPath: squareSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 07ffff7ee0bb9dd43bc4f4089417a8c7,
-        type: 3}
     - target: {fileID: 5307973822928053978, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
       propertyPath: m_Name
       value: Grid Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 6021240599449891517, guid: d0ea4137d03239643b23e406abcbf04f,
+    - target: {fileID: 5970033233136625920, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
-      propertyPath: m_RootOrder
+      propertyPath: displayGridWithOneBlock
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5970033233136625920, guid: d0ea4137d03239643b23e406abcbf04f,
+        type: 3}
+      propertyPath: displayGridWithSeparateBlocks
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021240599449891517, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
@@ -2594,7 +2566,7 @@ GameObject:
   - component: {fileID: 1838181986}
   - component: {fileID: 1838181985}
   m_Layer: 3
-  m_Name: XR Origin With Custom Pieces Grabber
+  m_Name: XR Origin - Pieces Grabber
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

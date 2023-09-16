@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class GridManager : MonoBehaviour
 {
     public TetrisGrid tetrisGrid;
-
-    public GameObject cubePrefabToSeeEmptyCells;
+    [Space(5)]
+    [SerializeField] private GridDisplayer gridDisplayer;
     [Space(5)]
     [Range(4, 6)] public int sizeX = 5;
     [Range(14, 20)] public int sizeY = 18;
@@ -39,8 +39,7 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
-        //DisplayGridWithSeparateBlocks();
-        DisplayGridWithOneBlock();
+        gridDisplayer.DisplayGrid(tetrisGrid);
         totalNumberOfCellsInEachFloor = sizeX * sizeZ;
     }
 
@@ -50,40 +49,6 @@ public class GridManager : MonoBehaviour
         tetrisGrid = new TetrisGrid(sizeX, sizeY, sizeZ, gridOriginPosition, scaleOfCells);
     }
 
-
-    private void DisplayGridWithSeparateBlocks()
-    {
-        GameObject gridCellVisuals = new GameObject();
-        gridCellVisuals.name = "Grid cells visuals";
-
-        for (int x = 0; x < sizeX; x++)
-        {
-            for (int y = 0; y < sizeY; y++)
-            {
-                for (int z = 0; z < sizeZ; z++)
-                {
-                    GameObject obj = Instantiate(cubePrefabToSeeEmptyCells, tetrisGrid.gridArray[x, y, z].worldPosition, Quaternion.identity, gridCellVisuals.transform);
-                    float sizeOfVisual = scaleOfCells - scaleOfCells * 0.075f;
-                    obj.transform.localScale = new Vector3(sizeOfVisual, sizeOfVisual, sizeOfVisual);
-
-                    tetrisGrid.gridArray[x, y, z].visualMarker = obj;
-                }
-            }
-        }
-    }
-
-    public void DisplayGridWithOneBlock()
-    {
-        Vector3 scale = new Vector3(sizeX * scaleOfCells, sizeY * scaleOfCells, sizeZ * scaleOfCells);
-
-        Vector3 position = new Vector3(gridOriginPosition.x + scale.x * 0.5f,
-                                       gridOriginPosition.y + scale.y * 0.5f,
-                                       gridOriginPosition.z + scale.z * 0.5f)
-        /* offset */     - new Vector3(scaleOfCells * 0.5f, scaleOfCells * 0.5f, scaleOfCells * 0.5f);
-
-        GameObject cube = Instantiate(cubePrefabToSeeEmptyCells, position, Quaternion.identity);
-        cube.transform.localScale = scale;
-    }
 
     public bool IsThisCellFull(int posX, int posY, int posZ, Piece pieceToIgnore, bool ignoreAllPiecesAlive)
     {
