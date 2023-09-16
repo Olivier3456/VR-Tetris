@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleport: {fileID: 8565399021335654089, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
-  player: {fileID: 0}
+  player: {fileID: 1838181984}
 --- !u!4 &39904001
 Transform:
   m_ObjectHideFlags: 0
@@ -640,14 +640,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5970033233136625920, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
-      propertyPath: displayGridWithOneBlock
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: squareImageGridDisplay
+      value: 
+      objectReference: {fileID: 4038913671278179647, guid: f6417cf0c991d744ca6ec238f476bcca,
+        type: 3}
     - target: {fileID: 5970033233136625920, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
-      propertyPath: displayGridWithSeparateBlocks
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: canvasPrefabToDisplayGrid
+      value: 
+      objectReference: {fileID: 995718663626901738, guid: 2146f52bca672784e90342e523944770,
+        type: 3}
     - target: {fileID: 6021240599449891517, guid: d0ea4137d03239643b23e406abcbf04f,
         type: 3}
       propertyPath: m_LocalPosition.x

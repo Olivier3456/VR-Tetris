@@ -65,3 +65,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubePrefabToSeeEmptyCells: {fileID: 4118998253367068254, guid: 9b9d8e65886dc694c8912b050547258f,
     type: 3}
+  displayGridWithOneBlock: 0
+  displayGridWithSeparateBlocks: 0
+  displayGridPretty: 1
+  canvasPrefabToDisplayGrid: {fileID: 1821374284158155672, guid: 2146f52bca672784e90342e523944770,
+    type: 3}
+  squareImageGridDisplay: {fileID: 4038913671278179647, guid: f6417cf0c991d744ca6ec238f476bcca,
+    type: 3}

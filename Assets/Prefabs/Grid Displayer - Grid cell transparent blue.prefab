@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7056932080148370556}
   - component: {fileID: 4772076135244738966}
   m_Layer: 0
-  m_Name: Grid cell Empty
+  m_Name: Grid Displayer - Grid cell transparent blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
