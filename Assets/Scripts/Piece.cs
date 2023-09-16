@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.XR.Interaction.Toolkit;
 
 [Serializable]
 public class Piece : MonoBehaviour
@@ -18,6 +16,8 @@ public class Piece : MonoBehaviour
 
     public PiecesGrabber grabber = null;
 
+    public bool pieceGrabbedAtLeastOnce = false;
+
 
     private void Start()
     {
@@ -26,16 +26,18 @@ public class Piece : MonoBehaviour
         foreach (Block block in blocksList)
         {
             block.TryAndFindGridCellPosition();
-
             block.lastPositionOnGrid = block.positionOnGrid;
             block.piece = this;
+        }
 
-            if (block.IsYourCellFull(true))
-            {
-                DebugLog.Log("GAME OVER! A piece already exists at a block position of the new piece.");
-                GameManager.instance.gameOver = true;
-                return;
-            }
+        if (!Check_If_All_Blocks_Cells_Are_Empty_At_Start(true))
+        {
+            return;
+        }
+
+        foreach (Block block in blocksList)
+        {
+            GridManager.instance.Fill_a_cell_with_a_block(block, false);
         }
 
         if (CheckIfGrounded())
@@ -45,6 +47,30 @@ public class Piece : MonoBehaviour
             return;
         }
     }
+
+
+    public bool Check_If_All_Blocks_Cells_Are_Empty_At_Start(bool firstCheck)
+    {
+        foreach (Block block in blocksList)
+        {
+            if (block.IsYourCellFull(true))
+            {
+                DebugLog.Log("GAME OVER! A dead piece already exists at a block position of the new piece.");
+                GameManager.instance.gameOver = true;
+                return false;
+            }
+
+            if (block.IsYourCellFull(false))
+            {
+                DebugLog.Log("A piece alive is already here. The new piece have to wait before spawning.");
+                PiecesManager.instance.OnPieceCantSpawn(this, firstCheck);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     private void Update()
     {
@@ -82,7 +108,7 @@ public class Piece : MonoBehaviour
     /// </summary>    
     public void PieceGrabbed()
     {
-        isHanded = true;        
+        isHanded = true;
 
         foreach (Block block in blocksList)
         {
@@ -90,7 +116,11 @@ public class Piece : MonoBehaviour
             block.lastPositionOnGrid = block.positionOnGrid;
         }
 
-        GameManager.instance.OnPieceGrabbed();
+        if (!pieceGrabbedAtLeastOnce)
+        {
+            piecesManager.OnPieceGrabbedForTheFirstTime();
+            pieceGrabbedAtLeastOnce = true;
+        }
     }
 
     /// <summary>
@@ -139,6 +169,7 @@ public class Piece : MonoBehaviour
             for (int i = 0; i < blocksList.Count; i++)
             {
                 GridManager.instance.Fill_a_cell_with_a_block(blocksList[i], false);
+                blocksList[i].lastPositionOnGrid = blocksList[i].positionOnGrid;
             }
 
             // The piece is effectively released from the hand which grabbed it.

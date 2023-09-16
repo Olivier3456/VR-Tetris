@@ -27,8 +27,7 @@ public class GameManager : MonoBehaviour
 
     private float piecesSpeedFallIncreaseStep = 0.035f;
 
-    public int maxNumberOfActivePieces = 3;
-    public int actualNumnberOfActivePieces = 0;
+
 
 
     private void Awake()
@@ -50,6 +49,8 @@ public class GameManager : MonoBehaviour
         CenterFloorOnGrid();
 
         groundColorChange = ground.GetComponent<ColorChange>();
+
+        //StartCoroutine(Wait_And_Create_Piece_When_Needed_And_Possible_Coroutine());
     }
 
     private void Update()
@@ -93,36 +94,15 @@ public class GameManager : MonoBehaviour
         ground.transform.position = new Vector3(groundPosX, groundPosY, groundPosZ);
     }
 
+
     public void OnPieceGrounded()
     {
         score++;
         ScoreText.text = score.ToString();
 
-        actualNumnberOfActivePieces--;
+        PiecesManager.instance.actualNumberOfActivePieces--;
 
-        if (!gameOver && actualNumnberOfActivePieces < maxNumberOfActivePieces)
-        {
-            PiecesManager.instance.CreateRandomPiece();
-        }
-    }
-
-    public void OnPieceGrabbed()
-    {
-        if (actualNumnberOfActivePieces < maxNumberOfActivePieces)
-        {
-            StartCoroutine(WaitBeforeSpawnNextPiece());
-        }
-    }
-
-    private WaitForSeconds waitTwoSeconds = new WaitForSeconds(2);
-    private IEnumerator WaitBeforeSpawnNextPiece()
-    {
-        yield return waitTwoSeconds;
-
-        if (actualNumnberOfActivePieces < maxNumberOfActivePieces)      // We check again.
-        {
-            PiecesManager.instance.CreateRandomPiece();
-        }
+        PiecesManager.instance.Create_Random_Piece_If_Max_Number_Not_Reached();
     }
 
 
@@ -131,9 +111,9 @@ public class GameManager : MonoBehaviour
         switch (numberOfLevels)
         {
             case 1: score += 10; break;
-            case 2: score += 15; break;
-            case 3: score += 30; break;
-            case 4: score += 50; break;
+            case 2: score += 30; break;
+            case 3: score += 60; break;
+            case 4: score += 150; break;
             default: DebugLog.Log("[GameManager] -- Error: number of levels must be between 1 and 4"); break;
         }
 
