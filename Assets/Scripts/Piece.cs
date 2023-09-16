@@ -54,7 +54,7 @@ public class Piece : MonoBehaviour
 
             foreach (Block block in blocksList)
             {
-                block.FindNearestGridCellPosition_Y_Only_With_Offset();
+                block.Find_Nearest_Grid_Cell_Position_Y_Only_With_Offset();
 
                 if (block.lastPositionOnGrid != block.positionOnGrid)
                 {
@@ -133,7 +133,7 @@ public class Piece : MonoBehaviour
         // we ask to one of them its movement from its actual world position to its new grid cell world position, and we apply it to the entiere piece.
         else
         {
-            Vector3 movementToApply = blocksList[0].GetMovementFromWorldPositionToNearestGridCellWorldPosition();
+            Vector3 movementToApply = blocksList[0].Get_Movement_From_World_Position_To_Nearest_Grid_Cell_World_Position();
             MoveToWorldPosition(movementToApply);
 
             for (int i = 0; i < blocksList.Count; i++)

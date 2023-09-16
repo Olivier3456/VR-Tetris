@@ -69,9 +69,10 @@ public class Block : MonoBehaviour
     }
 
     /// <summary>
-    /// The verification adds an Y offset to prevent the block to be grounded in the middle of the grid cell height: the block is grounded at the bottom of the cell.
+    /// This method is called by the blocks of the pieces falling, to verify if it is grounded.
+    /// The verification integrates a negative Y offset to prevent the block to be grounded in the middle of the grid cell height: the block is grounded at the bottom of the cell.
     /// </summary>
-    public void FindNearestGridCellPosition_Y_Only_With_Offset()
+    public void Find_Nearest_Grid_Cell_Position_Y_Only_With_Offset()
     {
         float blockYPositionFromGridYOriginPlusOffset = transform.position.y - GridManager.instance.tetrisGrid.worldPosition.y + GridManager.instance.scaleOfCells;
         int blockYGridPosition = (int)Math.Floor(blockYPositionFromGridYOriginPlusOffset / GridManager.instance.tetrisGrid.sizeOfCells);
@@ -85,7 +86,7 @@ public class Block : MonoBehaviour
     }
 
 
-    public Vector3 GetMovementFromWorldPositionToNearestGridCellWorldPosition()
+    public Vector3 Get_Movement_From_World_Position_To_Nearest_Grid_Cell_World_Position()
     {
         Vector3 res = transform.position - GridManager.instance.tetrisGrid.gridArray[positionOnGrid.x, positionOnGrid.y, positionOnGrid.z].worldPosition;
         return res;

@@ -8,8 +8,6 @@ public struct Cell
     public Vector3 worldPosition;
     public GameObject visualMarker;
     public Block blockInThisCell;
-
-
 }
 
 
