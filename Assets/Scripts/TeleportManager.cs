@@ -8,6 +8,8 @@ public class TeleportManager : MonoBehaviour
     [SerializeField] private InputActionReference teleport;
     [Space(10)]
     [SerializeField] private GameObject player;
+    [Space(10)]
+    [SerializeField] private GameObject directionalLight;
 
     private Transform[] teleportAnchors = new Transform[4];
 
@@ -30,6 +32,8 @@ public class TeleportManager : MonoBehaviour
     {
         CreateTeleportationAnchors();
         PlaceAndRotateAnchors();
+
+        Teleport_Rotate_Player_and_Rotate_Directional_Light();
     }
 
     private void CreateTeleportationAnchors()
@@ -85,11 +89,9 @@ public class TeleportManager : MonoBehaviour
         {
             if (value.x > 0)
             {
-                //DebugLog.Log("Teleport Right");
-
                 if (actualAnchorIndex < teleportAnchors.Length - 1)
                 {
-                    actualAnchorIndex++;                    
+                    actualAnchorIndex++;
                 }
                 else
                 {
@@ -98,8 +100,6 @@ public class TeleportManager : MonoBehaviour
             }
             else
             {
-                //DebugLog.Log("Teleport Left");
-
                 if (actualAnchorIndex > 0)
                 {
                     actualAnchorIndex--;
@@ -110,8 +110,16 @@ public class TeleportManager : MonoBehaviour
                 }
             }
 
-            player.transform.position = teleportAnchors[actualAnchorIndex].position;
-            player.transform.rotation = teleportAnchors[actualAnchorIndex].rotation;
+            Teleport_Rotate_Player_and_Rotate_Directional_Light();
         }
+    }
+
+    private void Teleport_Rotate_Player_and_Rotate_Directional_Light()
+    {
+        player.transform.position = teleportAnchors[actualAnchorIndex].position;
+        player.transform.rotation = teleportAnchors[actualAnchorIndex].rotation;
+
+        directionalLight.transform.rotation = teleportAnchors[actualAnchorIndex].rotation;
+        directionalLight.transform.Rotate(Vector3.right * 45);
     }
 }

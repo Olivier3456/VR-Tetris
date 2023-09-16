@@ -236,6 +236,7 @@ MonoBehaviour:
   teleport: {fileID: 8565399021335654089, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   player: {fileID: 1838181984}
+  directionalLight: {fileID: 1374849720}
 --- !u!4 &39904001
 Transform:
   m_ObjectHideFlags: 0
@@ -2079,13 +2080,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374849720}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0.35439613, y: 1.9175999, z: 0.026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &1374849723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3211,11 +3212,11 @@ SceneRoots:
   - {fileID: 1374849722}
   - {fileID: 385934866}
   - {fileID: 383488843}
+  - {fileID: 39904001}
   - {fileID: 1135882501}
   - {fileID: 1838181987}
   - {fileID: 1379468208}
   - {fileID: 1849550614}
   - {fileID: 1112821393}
   - {fileID: 1264219185}
-  - {fileID: 39904001}
   - {fileID: 5386444227845762780}
