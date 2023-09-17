@@ -26,19 +26,16 @@ public class Piece : MonoBehaviour
         foreach (Block block in blocksList)
         {
             block.TryAndFindGridCellPosition();
-            block.lastPositionOnGrid = block.positionOnGrid;
             block.piece = this;
+
+            if (block.IsYourCellFull(true))     // We ignore all pieces alive: they are not taken into account to determine if the player has lost the game.
+            {
+                DebugLog.Log("GAME OVER! A dead piece already exists at a block position of the new piece.");
+                GameManager.instance.gameOver = true;
+                return;
+            }
         }
 
-        if (!Check_If_All_Blocks_Cells_Are_Empty_At_Start(true))
-        {
-            return;
-        }
-
-        foreach (Block block in blocksList)
-        {
-            GridManager.instance.Fill_a_cell_with_a_block(block, false);
-        }
 
         if (CheckIfGrounded())
         {
@@ -46,62 +43,24 @@ public class Piece : MonoBehaviour
             GameManager.instance.gameOver = true;
             return;
         }
+
+        PiecesManager.instance.AddPieceToWaitingList(this);
     }
 
 
-    public bool Check_If_All_Blocks_Cells_Are_Empty_At_Start(bool firstCheck)
+    public bool Check_If_All_Blocks_Cells_Are_Empty_At_Start()
     {
         foreach (Block block in blocksList)
         {
-            if (block.IsYourCellFull(true))
-            {
-                DebugLog.Log("GAME OVER! A dead piece already exists at a block position of the new piece.");
-                GameManager.instance.gameOver = true;
-                return false;
-            }
-
-            if (block.IsYourCellFull(false))
+            if (block.IsYourCellFull(false))    // This time we don't ignore all pieces alive, because we want to know if the piece can spawn here.
             {
                 DebugLog.Log("A piece alive is already here. The new piece have to wait before spawning.");
-                PiecesManager.instance.OnPieceCantSpawn(this, firstCheck);
                 return false;
             }
         }
-
         return true;
     }
 
-
-    private void Update()
-    {
-        if (!isHanded && !GameManager.instance.gameOver)
-        {
-            Fall();
-
-            foreach (Block block in blocksList)
-            {
-                block.Find_Nearest_Grid_Cell_Position_Y_Only_With_Offset();
-
-                if (block.lastPositionOnGrid != block.positionOnGrid)
-                {
-                    GridManager.instance.Empty_a_Cell(block.lastPositionOnGrid.x, block.lastPositionOnGrid.y, block.lastPositionOnGrid.z);
-                    GridManager.instance.Fill_a_cell_with_a_block(block, false);
-                    block.lastPositionOnGrid = block.positionOnGrid;
-                }
-            }
-
-            if (CheckIfGrounded())
-            {
-                PiecesManager.instance.KillPiece(this);
-            }
-        }
-    }
-
-
-    private void Fall()
-    {
-        transform.position = new Vector3(transform.position.x, transform.position.y - Time.deltaTime * PiecesManager.instance.piecesFallSpeed, transform.position.z);
-    }
 
     /// <summary>
     /// Must be called when the player grabs the piece.
@@ -113,7 +72,6 @@ public class Piece : MonoBehaviour
         foreach (Block block in blocksList)
         {
             GridManager.instance.Empty_a_Cell(block.positionOnGrid.x, block.positionOnGrid.y, block.positionOnGrid.z);
-            block.lastPositionOnGrid = block.positionOnGrid;
         }
 
         if (!pieceGrabbedAtLeastOnce)
@@ -122,6 +80,7 @@ public class Piece : MonoBehaviour
             pieceGrabbedAtLeastOnce = true;
         }
     }
+
 
     /// <summary>
     /// Must be called when the player drops the piece.
@@ -169,7 +128,6 @@ public class Piece : MonoBehaviour
             for (int i = 0; i < blocksList.Count; i++)
             {
                 GridManager.instance.Fill_a_cell_with_a_block(blocksList[i], false);
-                blocksList[i].lastPositionOnGrid = blocksList[i].positionOnGrid;
             }
 
             // The piece is effectively released from the hand which grabbed it.
@@ -179,11 +137,6 @@ public class Piece : MonoBehaviour
             isHanded = false;
 
             AudioManager.instance.Play_PieceDroppedGood();
-
-            if (CheckIfGrounded())
-            {
-                PiecesManager.instance.KillPiece(this);
-            }
         }
     }
 

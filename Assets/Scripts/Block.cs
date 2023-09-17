@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [HideInInspector] public Vector3Int positionOnGrid;
-    [HideInInspector] public Vector3Int lastPositionOnGrid;
+    [HideInInspector] public Vector3Int positionOnGrid;    
     [HideInInspector] public Piece piece;
-
 
 
     public bool IsGrounded

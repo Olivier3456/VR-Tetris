@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private float lastTimeDisplayed = 0;
 
-    private float piecesSpeedFallIncreaseStep = 0.035f;
+    private float piecesSpeedFallIncreaseStep = 0.05f;
 
 
 
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
             nextLevelTime += timeBetweenLevels;
             currentLevel++;
             LevelText.text = "Level " + currentLevel;
-            PiecesManager.instance.piecesFallSpeed += piecesSpeedFallIncreaseStep;
+            PiecesManager.instance.piecesFallTimeStep -= piecesSpeedFallIncreaseStep;
         }
     }
 
