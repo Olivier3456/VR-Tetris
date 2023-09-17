@@ -107,8 +107,7 @@ public class PiecesManager : MonoBehaviour
     }
 
 
-
-    public List<Piece> fallingPieces = new List<Piece>();    
+    [HideInInspector] public List<Piece> fallingPieces = new List<Piece>();    
     private IEnumerator PiecesFall()
     {
         while (true)

@@ -2975,6 +2975,7 @@ MonoBehaviour:
   ScoreText: {fileID: 1772338713}
   LevelText: {fileID: 1341578409}
   TimeText: {fileID: 1983811608}
+  menuGameStateText: {fileID: 441488764}
   ground: {fileID: 1899879040}
   menuCanvas: {fileID: 1919264701}
   gameStateCanvas: {fileID: 1986626470}
@@ -6213,7 +6214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.144, y: 1.886}
+  m_AnchoredPosition: {x: 2.144, y: 1.044}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1947866430
@@ -6471,7 +6472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.987, y: 2.15}
+  m_AnchoredPosition: {x: 1.987, y: 2.591}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1986626469

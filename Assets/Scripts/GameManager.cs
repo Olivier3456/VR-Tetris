@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private TextMeshProUGUI LevelText;
     [SerializeField] private TextMeshProUGUI TimeText;
+    [SerializeField] private TextMeshProUGUI menuGameStateText;
 
     [SerializeField] private GameObject ground;
     private ColorChange groundColorChange;
@@ -136,16 +137,20 @@ public class GameManager : MonoBehaviour
 
     public void TogglePlayPause(InputAction.CallbackContext context)
     {
-        pause = !pause;
-        menuCanvas.gameObject.SetActive(pause);
-        gameStateCanvas.gameObject.SetActive(!pause);
-        rayInteractorLeft.SetActive(pause);
-        rayInteractorRight.SetActive(pause);
+        if (!gameOver)
+        {
+            pause = !pause;
+            menuCanvas.gameObject.SetActive(pause);
+            gameStateCanvas.gameObject.SetActive(!pause);
+            rayInteractorLeft.SetActive(pause);
+            rayInteractorRight.SetActive(pause);
+        }
     }
 
     public void GameOver()
     {
         gameOver = true;
+        menuGameStateText.text = "Game Over";
         menuCanvas.gameObject.SetActive(true);
         gameStateCanvas.gameObject.SetActive(true);
         rayInteractorLeft.SetActive(true);
