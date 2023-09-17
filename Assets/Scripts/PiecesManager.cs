@@ -110,19 +110,19 @@ public class PiecesManager : MonoBehaviour
 
 
     public List<Piece> fallingPieces = new List<Piece>();
-    public List<Piece> groundedPiecesAtThisFall = new List<Piece>();
+    //public List<Piece> groundedPiecesAtThisFall = new List<Piece>();
     private IEnumerator PiecesFall()
     {
         while (true)
         {
             yield return new WaitForSeconds(piecesFallTimeStep);
 
-            groundedPiecesAtThisFall.Clear();
+            //groundedPiecesAtThisFall.Clear();
             listOfFloors.Clear();
             int i;
 
 
-            // 1. On vérifie si les pièces vivantes sont au sol, si oui on les tue, et on revérifie tant qu'au moins une pièce a été détectée au sol dans une itération de la boucle.
+            // Check whether any living pieces are on the ground, if so we kill them, and we check again as long as at least one piece has been detected on the ground in an iteration of the loop.
             bool isAPieceGroundedAtThisIteration;
             do
             {
@@ -132,7 +132,7 @@ public class PiecesManager : MonoBehaviour
                 {
                     if (fallingPieces[i].CheckIfGrounded())
                     {
-                        groundedPiecesAtThisFall.Add(fallingPieces[i]);
+                        //groundedPiecesAtThisFall.Add(fallingPieces[i]);
                         KillPiece(fallingPieces[i]);
                         fallingPieces.Remove(fallingPieces[i]);
                         isAPieceGroundedAtThisIteration = true;
@@ -142,7 +142,7 @@ public class PiecesManager : MonoBehaviour
             } while (isAPieceGroundedAtThisIteration);
 
 
-            // 2. On fait tomber d'un cran les pièces encore vivantes.
+            // Linving pieces fall of one cell.
             foreach (Piece piece in fallingPieces)
             {
                 foreach (Block block in piece.blocksList)
@@ -157,24 +157,21 @@ public class PiecesManager : MonoBehaviour
             }
 
 
-            // 3. On tue les pièces grounded.
-            while (groundedPiecesAtThisFall.Count > 0)
-            {
-                KillPiece(groundedPiecesAtThisFall[0]);
-                groundedPiecesAtThisFall.Remove(groundedPiecesAtThisFall[0]);
-            }
+            // Kill grounded pieces.
+            //while (groundedPiecesAtThisFall.Count > 0)
+            //{
+            //    KillPiece(groundedPiecesAtThisFall[0]);
+            //    groundedPiecesAtThisFall.Remove(groundedPiecesAtThisFall[0]);
+            //}
 
 
-            // 4. On vérifie les étages concernés par les pièces grounded.
+            // Check if the floors affected by the grounded pieces are full.
             if (listOfFloors.Count > 0)
             {
                 GridManager.instance.CheckIfTheseFloorsAreFull(listOfFloors);
             }
         }
     }
-
-
-
 
 
     public void OnPieceGrabbedForTheFirstTime()
@@ -188,17 +185,11 @@ public class PiecesManager : MonoBehaviour
     {
         AudioManager.instance.Play_PieceGrounded();
 
-        //listOfFloors.Clear();
-
         for (int i = 0; i < pieceToDestroy.blocksList.Count; i++)
         {
             pieceToDestroy.blocksList[i].transform.parent = null;
             pieceToDestroy.blocksList[i].piece = null;
 
-            // To avoid a slight Y position shift. Maybe not necessary.
-            //pieceToDestroy.blocksList[i].transform.position = GridManager.instance.tetrisGrid.gridArray[pieceToDestroy.blocksList[i].positionOnGrid.x,
-            //                                                                                            pieceToDestroy.blocksList[i].positionOnGrid.y,
-            //                                                                                            pieceToDestroy.blocksList[i].positionOnGrid.z].worldPosition;
             GridManager.instance.Fill_a_cell_with_a_block(pieceToDestroy.blocksList[i], true);
 
             if (!listOfFloors.Contains(pieceToDestroy.blocksList[i].positionOnGrid.y))
@@ -206,10 +197,6 @@ public class PiecesManager : MonoBehaviour
                 listOfFloors.Add(pieceToDestroy.blocksList[i].positionOnGrid.y);
             }
         }
-
-        //GridManager.instance.CheckIfTheseFloorsAreFull(listOfFloors);
-
-        //fallingPieces.Remove(pieceToDestroy);
 
         Destroy(pieceToDestroy.gameObject);
 
