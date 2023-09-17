@@ -10,7 +10,6 @@ public class Piece : MonoBehaviour
     [HideInInspector] public List<Block> blocksList = new List<Block>();
     [HideInInspector] public int numberOfBlocks = 0;
     [HideInInspector] public PiecesManager piecesManager;
-    //[HideInInspector] public bool isHanded;
     private Vector3 handedPosition;
     private Quaternion handedRotation;
 
@@ -67,8 +66,8 @@ public class Piece : MonoBehaviour
     /// </summary>    
     public void PieceGrabbed()
     {
-        //isHanded = true;
         piecesManager.fallingPieces.Remove(this);
+        piecesManager.handHeldPieces++;
 
         foreach (Block block in blocksList)
         {
@@ -136,7 +135,7 @@ public class Piece : MonoBehaviour
             grabber = null;
             transform.parent = null;
             piecesManager.fallingPieces.Add(this);
-            //isHanded = false;
+            piecesManager.handHeldPieces--;
 
             AudioManager.instance.Play_PieceDroppedGood();
         }

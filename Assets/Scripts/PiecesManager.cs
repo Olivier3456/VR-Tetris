@@ -12,7 +12,10 @@ public class PiecesManager : MonoBehaviour
 
     public static PiecesManager instance;
 
-    public int maxNumberOfActivePieces = 3;
+    [HideInInspector] public int maxNumberOfActivePieces = 3;
+
+    // Needed to calculate the total number of pieces alive : not spawned yet + falling + hand-held.
+    [HideInInspector] public int handHeldPieces = 0;
 
     private void Awake()
     {
@@ -44,7 +47,7 @@ public class PiecesManager : MonoBehaviour
 
     public void Create_Random_Piece_If_Max_Number_Not_Reached()
     {
-        if (!GameManager.instance.gameOver && (piecesWaitingToSpawn.Count + fallingPieces.Count) < maxNumberOfActivePieces)
+        if (!GameManager.instance.gameOver && (piecesWaitingToSpawn.Count + fallingPieces.Count + handHeldPieces) < maxNumberOfActivePieces)
         {
             int randomIndex = UnityEngine.Random.Range(0, piecesPrefabs.Count);
             CreatePiece(piecesPrefabs[randomIndex]);
