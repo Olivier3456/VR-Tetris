@@ -13,8 +13,6 @@ public class PiecesManager : MonoBehaviour
     public static PiecesManager instance;
 
     public int maxNumberOfActivePieces = 3;
-    public int actualNumberOfActivePieces = 0;
-
 
     private void Awake()
     {
@@ -46,7 +44,7 @@ public class PiecesManager : MonoBehaviour
 
     public void Create_Random_Piece_If_Max_Number_Not_Reached()
     {
-        if (!GameManager.instance.gameOver && actualNumberOfActivePieces < maxNumberOfActivePieces)
+        if (!GameManager.instance.gameOver && (piecesWaitingToSpawn.Count + fallingPieces.Count) < maxNumberOfActivePieces)
         {
             int randomIndex = UnityEngine.Random.Range(0, piecesPrefabs.Count);
             CreatePiece(piecesPrefabs[randomIndex]);
@@ -63,8 +61,6 @@ public class PiecesManager : MonoBehaviour
         Piece piece = pieceGameObject.GetComponent<Piece>();
         piece.transform.localScale = new Vector3(GridManager.instance.scaleOfCells, GridManager.instance.scaleOfCells, GridManager.instance.scaleOfCells);
         piece.piecesManager = instance;
-
-        actualNumberOfActivePieces++;
     }
 
 
@@ -110,17 +106,14 @@ public class PiecesManager : MonoBehaviour
 
 
     public List<Piece> fallingPieces = new List<Piece>();
-    //public List<Piece> groundedPiecesAtThisFall = new List<Piece>();
     private IEnumerator PiecesFall()
     {
         while (true)
         {
             yield return new WaitForSeconds(piecesFallTimeStep);
 
-            //groundedPiecesAtThisFall.Clear();
             listOfFloors.Clear();
             int i;
-
 
             // Check whether any living pieces are on the ground, if so we kill them, and we check again as long as at least one piece has been detected on the ground in an iteration of the loop.
             bool isAPieceGroundedAtThisIteration;
@@ -132,7 +125,6 @@ public class PiecesManager : MonoBehaviour
                 {
                     if (fallingPieces[i].CheckIfGrounded())
                     {
-                        //groundedPiecesAtThisFall.Add(fallingPieces[i]);
                         KillPiece(fallingPieces[i]);
                         fallingPieces.Remove(fallingPieces[i]);
                         isAPieceGroundedAtThisIteration = true;
@@ -155,14 +147,6 @@ public class PiecesManager : MonoBehaviour
                 Vector3 pieceWorldPosition = piece.transform.position;
                 piece.transform.position = new Vector3(pieceWorldPosition.x, pieceWorldPosition.y - GridManager.instance.scaleOfCells, pieceWorldPosition.z);
             }
-
-
-            // Kill grounded pieces.
-            //while (groundedPiecesAtThisFall.Count > 0)
-            //{
-            //    KillPiece(groundedPiecesAtThisFall[0]);
-            //    groundedPiecesAtThisFall.Remove(groundedPiecesAtThisFall[0]);
-            //}
 
 
             // Check if the floors affected by the grounded pieces are full.
