@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     [HideInInspector] public bool gameOver = false;
+    [HideInInspector] public bool pause = false;
+
 
     [SerializeField] private int score = 0;
 
@@ -18,6 +22,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ground;
     private ColorChange groundColorChange;
 
+    [SerializeField] private Canvas menuCanvas;
+    [SerializeField] private Canvas gameStateCanvas;
+    [SerializeField] private GameObject rayInteractorLeft;
+    [SerializeField] private GameObject rayInteractorRight;
+
     public int timeBetweenLevels = 30;
     private int nextLevelTime;
     private int currentLevel = 1;
@@ -26,8 +35,6 @@ public class GameManager : MonoBehaviour
     private float lastTimeDisplayed = 0;
 
     private float piecesSpeedFallIncreaseStep = 0.05f;
-
-
 
 
     private void Awake()
@@ -55,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!gameOver)
+        if (!gameOver && !pause)
         {
             time += Time.deltaTime;
             IncreaseLevelIfTimeIsOver();
@@ -71,6 +78,7 @@ public class GameManager : MonoBehaviour
             currentLevel++;
             LevelText.text = "Level " + currentLevel;
             PiecesManager.instance.piecesFallTimeStep -= piecesSpeedFallIncreaseStep;
+            AudioManager.instance.IncreaseMusicPitch();
         }
     }
 
@@ -94,7 +102,6 @@ public class GameManager : MonoBehaviour
         ground.transform.position = new Vector3(groundPosX, groundPosY, groundPosZ);
     }
 
-
     public void OnPieceGrounded()
     {
         score++;
@@ -102,7 +109,6 @@ public class GameManager : MonoBehaviour
 
         PiecesManager.instance.Create_Random_Piece_If_Max_Number_Not_Reached();
     }
-
 
     public void AddScoreWhenLevelFull(int numberOfLevels)
     {
@@ -126,5 +132,28 @@ public class GameManager : MonoBehaviour
         groundColorChange.colorChangeSpeed *= multiplier;
         yield return new WaitForSeconds(numberOfLevels * 0.15f);
         groundColorChange.colorChangeSpeed /= multiplier;
+    }
+
+    public void TogglePlayPause(InputAction.CallbackContext context)
+    {
+        pause = !pause;
+        menuCanvas.gameObject.SetActive(pause);
+        gameStateCanvas.gameObject.SetActive(!pause);
+        rayInteractorLeft.SetActive(pause);
+        rayInteractorRight.SetActive(pause);
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        menuCanvas.gameObject.SetActive(true);
+        gameStateCanvas.gameObject.SetActive(true);
+        rayInteractorLeft.SetActive(true);
+        rayInteractorRight.SetActive(true);
+    }
+
+    public void ReloadGameScene()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 }

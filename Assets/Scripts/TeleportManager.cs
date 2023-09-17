@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class TeleportManager : MonoBehaviour
-{
-    [SerializeField] private InputActionReference teleport;
-    [Space(10)]
+{    
     [SerializeField] private GameObject player;
     [Space(10)]
     [SerializeField] private GameObject directionalLight;
@@ -16,18 +14,6 @@ public class TeleportManager : MonoBehaviour
     private int actualAnchorIndex = 0;
 
 
-    private void OnEnable()
-    {
-        teleport.action.Enable();
-        teleport.action.performed += Teleport;
-    }
-    private void OnDisable()
-    {
-        teleport.action.Disable();
-        teleport.action.performed -= Teleport;
-    }
-
-
     private void Start()
     {
         CreateTeleportationAnchors();
@@ -35,6 +21,7 @@ public class TeleportManager : MonoBehaviour
 
         Teleport_Rotate_Player_and_Rotate_Directional_Light();
     }
+
 
     private void CreateTeleportationAnchors()
     {
@@ -56,6 +43,7 @@ public class TeleportManager : MonoBehaviour
         anchor4.transform.parent = anchors.transform;
         teleportAnchors[3] = anchor4.transform;
     }
+
 
     private void PlaceAndRotateAnchors()
     {
@@ -80,8 +68,7 @@ public class TeleportManager : MonoBehaviour
     }
 
 
-
-    private void Teleport(InputAction.CallbackContext context)
+    public void Teleport(InputAction.CallbackContext context)
     {
         Vector2 value = context.ReadValue<Vector2>();
 
@@ -113,6 +100,7 @@ public class TeleportManager : MonoBehaviour
             Teleport_Rotate_Player_and_Rotate_Directional_Light();
         }
     }
+
 
     private void Teleport_Rotate_Player_and_Rotate_Directional_Light()
     {

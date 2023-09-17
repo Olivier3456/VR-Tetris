@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager instance;
 
+   
     private void Awake()
     {
         if (instance == null)
@@ -46,5 +47,10 @@ public class AudioManager : MonoBehaviour
     public void Play_PieceGrounded()
     {
         fxAudioSource.PlayOneShot(pieceGroundedClip);
+    }
+
+    public void IncreaseMusicPitch()
+    {
+        musicAudioSource.pitch += 0.01f;
     }
 }

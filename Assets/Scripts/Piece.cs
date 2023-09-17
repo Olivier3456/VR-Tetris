@@ -30,7 +30,7 @@ public class Piece : MonoBehaviour
             if (block.IsYourCellFull(true))     // We ignore all pieces alive: they are not taken into account to determine if the player has lost the game.
             {
                 DebugLog.Log("GAME OVER! A dead piece already exists at a block position of the new piece.");
-                GameManager.instance.gameOver = true;
+                GameManager.instance.GameOver();
                 return;
             }
         }
@@ -39,7 +39,7 @@ public class Piece : MonoBehaviour
         if (CheckIfGrounded())
         {
             DebugLog.Log("GAME OVER! New piece grounded at start.");
-            GameManager.instance.gameOver = true;
+            GameManager.instance.GameOver();
             return;
         }
 

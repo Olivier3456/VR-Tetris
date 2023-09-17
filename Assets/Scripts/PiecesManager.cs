@@ -85,7 +85,7 @@ public class PiecesManager : MonoBehaviour
         {
             yield return waitOneSecond;
 
-            if (!GameManager.instance.gameOver && piecesWaitingToSpawn.Count > 0)
+            if (!GameManager.instance.gameOver && !GameManager.instance.pause && piecesWaitingToSpawn.Count > 0)
             {
                 piecesWaitingToSpawn[0].gameObject.SetActive(true);
 
@@ -115,47 +115,50 @@ public class PiecesManager : MonoBehaviour
         {
             yield return new WaitForSeconds(piecesFallTimeStep);
 
-            listOfFloors.Clear();
-            int i;
-
-            // Check whether any living pieces are on the ground, if so we kill them, and we check again as long as at least one piece has been detected on the ground in an iteration of the loop.
-            bool isAPieceGroundedAtThisIteration;
-            do
+            if (!GameManager.instance.gameOver && !GameManager.instance.pause)
             {
-                isAPieceGroundedAtThisIteration = false;
-                i = fallingPieces.Count - 1;
-                while (i >= 0)
+                listOfFloors.Clear();
+                int i;
+
+                // Check whether any living pieces are on the ground, if so we kill them, and we check again as long as at least one piece has been detected on the ground in an iteration of the loop.
+                bool isAPieceGroundedAtThisIteration;
+                do
                 {
-                    if (fallingPieces[i].CheckIfGrounded())
+                    isAPieceGroundedAtThisIteration = false;
+                    i = fallingPieces.Count - 1;
+                    while (i >= 0)
                     {
-                        KillPiece(fallingPieces[i]);
-                        fallingPieces.Remove(fallingPieces[i]);
-                        isAPieceGroundedAtThisIteration = true;
+                        if (fallingPieces[i].CheckIfGrounded())
+                        {
+                            KillPiece(fallingPieces[i]);
+                            fallingPieces.Remove(fallingPieces[i]);
+                            isAPieceGroundedAtThisIteration = true;
+                        }
+                        i--;
                     }
-                    i--;
-                }
-            } while (isAPieceGroundedAtThisIteration);
+                } while (isAPieceGroundedAtThisIteration);
 
 
-            // Living pieces fall in the cells at Y - 1.
-            foreach (Piece piece in fallingPieces)
-            {
-                foreach (Block block in piece.blocksList)
+                // Living pieces fall in the cells at Y - 1.
+                foreach (Piece piece in fallingPieces)
                 {
-                    GridManager.instance.Empty_a_Cell(block.positionOnGrid.x, block.positionOnGrid.y, block.positionOnGrid.z);
-                    block.positionOnGrid = new Vector3Int(block.positionOnGrid.x, block.positionOnGrid.y - 1, block.positionOnGrid.z);
-                    GridManager.instance.Fill_a_cell_with_a_block(block, false);
+                    foreach (Block block in piece.blocksList)
+                    {
+                        GridManager.instance.Empty_a_Cell(block.positionOnGrid.x, block.positionOnGrid.y, block.positionOnGrid.z);
+                        block.positionOnGrid = new Vector3Int(block.positionOnGrid.x, block.positionOnGrid.y - 1, block.positionOnGrid.z);
+                        GridManager.instance.Fill_a_cell_with_a_block(block, false);
+                    }
+
+                    Vector3 pieceWorldPosition = piece.transform.position;
+                    piece.transform.position = new Vector3(pieceWorldPosition.x, pieceWorldPosition.y - GridManager.instance.scaleOfCells, pieceWorldPosition.z);
                 }
 
-                Vector3 pieceWorldPosition = piece.transform.position;
-                piece.transform.position = new Vector3(pieceWorldPosition.x, pieceWorldPosition.y - GridManager.instance.scaleOfCells, pieceWorldPosition.z);
-            }
 
-
-            // Check if the floors affected by the grounded pieces are full.
-            if (listOfFloors.Count > 0)
-            {
-                GridManager.instance.CheckIfTheseFloorsAreFull(listOfFloors);
+                // Check if the floors affected by the grounded pieces are full.
+                if (listOfFloors.Count > 0)
+                {
+                    GridManager.instance.CheckIfTheseFloorsAreFull(listOfFloors);
+                }
             }
         }
     }
