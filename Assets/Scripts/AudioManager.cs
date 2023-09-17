@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip uiClickClip;
 
     public static AudioManager instance;
-
    
     private void Awake()
     {
