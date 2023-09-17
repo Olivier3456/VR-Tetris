@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 140
+  controlID: 142
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 18
+  controlID: 26
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: AudioMixerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -244,12 +244,12 @@ MonoBehaviour:
     height: 468
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 14}
   - {fileID: 17}
   - {fileID: 13}
-  m_Selected: 1
+  m_Selected: 2
   m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
@@ -340,8 +340,8 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_MixersTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 28758
+    m_SelectedIDs: 76700000
+    m_LastClickedID: 28790
     m_ExpandedIDs: 12eb343c
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -637,8 +637,8 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -141, y: -197.4}
-      snapOffsetDelta: {x: 0, y: -0.000030517578}
+      snapOffset: {x: -141, y: -197.40002}
+      snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: unity-grid-and-snap-toolbar
       index: 1
@@ -929,9 +929,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -5.8616548, y: -3.541564, z: 17.326326}
+    m_Target: {x: -0.18783624, y: -1.2224064, z: 17.66907}
     speed: 2
-    m_Value: {x: -5.8616548, y: -3.541564, z: 17.326326}
+    m_Value: {x: -0.18783624, y: -1.2224064, z: 17.66907}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -977,13 +977,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.111538894, y: -0.16761321, z: 0.019068195, w: 0.9793551}
+    m_Target: {x: -0.06684094, y: 0.017374074, z: -0.001111894, w: -0.9976399}
     speed: 2
-    m_Value: {x: 0.11153694, y: -0.16761027, z: 0.019067861, w: 0.97933793}
+    m_Value: {x: -0.06683907, y: 0.017373588, z: -0.0011118628, w: -0.99761194}
   m_Size:
-    m_Target: 10.465149
+    m_Target: 10.168458
     speed: 2
-    m_Value: 10.465149
+    m_Value: 10.168458
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1068,10 +1068,10 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 62.11083}
     m_SelectedIDs: 0a780000
     m_LastClickedID: 30730
-    m_ExpandedIDs: 00000000e8770000ea770000ec770000ee770000f0770000f277000000ca9a3b
+    m_ExpandedIDs: 00000000e8770000ea770000ec770000ee770000f0770000f27700000c78000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1127,7 +1127,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c85a00007a5b0000224f0000587e0000000000002a80000044800000aa40e6fffe6f00002e740000c071000056700000b4f300002e780000
+    m_ExpandedInstanceIDs: c85a00007a5b0000224f0000587e0000000000002a80000044800000aa40e6fffe6f00002e740000c071000056700000b4f300002e780000767000000e720000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1228,9 +1228,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 06710000
-      m_LastClickedID: 28934
-      m_ExpandedIDs: 24fbffffec700000207100005c710000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 022bfeff062bfeff0a2bfeff0e2bfeff122bfeff162bfeff1a2bfeff1e2bfeff6233feff9c34feff3035fefff435feff1237feff1638feffa011ffffae11ffffbc11ffffca11ffffd811ffffac13ffff6616ffff7216ffff8816ffffa016ffff5817ffff141cffffd620ffff1031ffff8633ffff9233ffffa833ffffc033ffff1834ffffd234ffff24fbffffec700000f27000005c7100007e7100001c9200002292000092920000ac920000c09800005e99000078990000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

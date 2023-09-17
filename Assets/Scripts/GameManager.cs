@@ -156,9 +156,4 @@ public class GameManager : MonoBehaviour
         rayInteractorLeft.SetActive(true);
         rayInteractorRight.SetActive(true);
     }
-
-    public void ReloadGameScene()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-    }
 }

@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip pieceDroppedOkClip;
     public AudioClip fullFloorClip;
     public AudioClip pieceGroundedClip;
+    public AudioClip uiClickClip;
 
     public static AudioManager instance;
 
@@ -28,6 +29,14 @@ public class AudioManager : MonoBehaviour
             Debug.Log("An instance of AudioManager already exists!");
         }
     }
+
+
+    private void Start()
+    {
+        musicAudioSource.volume = Config.musicVolume;
+        fxAudioSource.volume = Config.fxVolume;
+    }
+
 
     public void Play_PieceDroppedError()
     {
@@ -47,6 +56,11 @@ public class AudioManager : MonoBehaviour
     public void Play_PieceGrounded()
     {
         fxAudioSource.PlayOneShot(pieceGroundedClip);
+    }
+
+    public void PlayUIClickSound()
+    {
+        fxAudioSource.PlayOneShot(uiClickClip);
     }
 
     public void IncreaseMusicPitch()
