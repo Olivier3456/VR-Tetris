@@ -100,8 +100,6 @@ public class GameManager : MonoBehaviour
         score++;
         ScoreText.text = score.ToString();
 
-        PiecesManager.instance.actualNumberOfActivePieces--;
-
         PiecesManager.instance.Create_Random_Piece_If_Max_Number_Not_Reached();
     }
 

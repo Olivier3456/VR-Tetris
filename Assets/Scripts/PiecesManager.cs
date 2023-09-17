@@ -105,7 +105,7 @@ public class PiecesManager : MonoBehaviour
 
 
 
-    public List<Piece> fallingPieces = new List<Piece>();
+    public List<Piece> fallingPieces = new List<Piece>();    
     private IEnumerator PiecesFall()
     {
         while (true)
@@ -134,7 +134,7 @@ public class PiecesManager : MonoBehaviour
             } while (isAPieceGroundedAtThisIteration);
 
 
-            // Linving pieces fall of one cell.
+            // Living pieces fall in the cells at Y - 1.
             foreach (Piece piece in fallingPieces)
             {
                 foreach (Block block in piece.blocksList)
