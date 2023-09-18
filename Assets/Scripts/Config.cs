@@ -4,11 +4,36 @@ using UnityEngine;
 
 public class Config : MonoBehaviour
 {
-    public static float musicVolume;
-    public static float fxVolume;
+    public static float musicVolume = 1;
+    public static float fxVolume = 1;
 
     public AudioSource musicAudioSource;
     public AudioSource fxAudioSource;
+
+    private bool firstInstance = true;
+
+    private void Start()
+    {
+        if (!firstInstance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        firstInstance = false;
+        DontDestroyOnLoad(this);
+
+        if (musicAudioSource != null)
+        {
+            fxAudioSource.volume = musicVolume;
+        }
+
+        if (fxAudioSource != null)
+        {
+            fxAudioSource.volume = fxVolume;
+        }
+    }
+
 
 
     public void ChangeMusicVolumeValue(float value)
@@ -17,7 +42,7 @@ public class Config : MonoBehaviour
 
         if (musicAudioSource != null)
         {
-            fxAudioSource.volume = musicVolume;
+            musicAudioSource.volume = musicVolume;
         }
     }
 

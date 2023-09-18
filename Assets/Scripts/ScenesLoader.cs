@@ -7,11 +7,11 @@ public class ScenesLoader : MonoBehaviour
 {
     public void LoadLevelScene()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetSceneByBuildIndex(1).name);
+        SceneManager.LoadSceneAsync(1);            
     }
 
     public void LoadMenuScene()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetSceneByBuildIndex(0).name);
+        SceneManager.LoadSceneAsync(0);
     }
 }
